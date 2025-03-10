@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.IO;
 using System.Web;
 using System.Web.Optimization;
 using System.Web.Routing;
+using WingtipToys.Models;
 
 namespace WingtipToys
 {
@@ -11,9 +13,10 @@ namespace WingtipToys
     {
         void Application_Start(object sender, EventArgs e)
         {
-            // Code that runs on application startup
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            Database.SetInitializer(new DatabaseInitializer());
         }
 
         void Application_Error(object sender, EventArgs e)
