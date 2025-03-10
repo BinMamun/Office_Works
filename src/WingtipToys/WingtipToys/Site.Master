@@ -113,6 +113,12 @@
                 </div>
             </div>
         </div>
+        <div id="TitleContent" class="text-center">
+            <a runat="server" href="~/">
+                <asp:Image ID="Image1" runat="server" Width="300px" CssClass="logo-image" ImageUrl="~/Images/logo.jpg" BorderStyle="None" />
+            </a>
+            <br />
+        </div>
         <div class="container body-content flex-grow-1 mb-5">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
@@ -121,7 +127,7 @@
         <hr />
         <div class="container mt-auto text-center">
             <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - My ASP.NET Application</p>
+                <p>&copy; <%: DateTime.Now.Year %> - Wingtip Toys</p>
             </footer>
         </div>
     </form>

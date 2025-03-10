@@ -5,6 +5,14 @@ body {
     height:100%;
 }
 
+
+.logo-image {
+    width: 300px; /* Set the width */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 15px; /* Rounded corners */
+    margin: 10px auto;
+}
+
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
