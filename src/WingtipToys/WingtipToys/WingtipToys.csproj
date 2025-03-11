@@ -358,6 +358,7 @@
     </Compile>
     <Compile Include="ApplicationDbContext.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="DbHelper.cs" />
     <Compile Include="Pages\About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>

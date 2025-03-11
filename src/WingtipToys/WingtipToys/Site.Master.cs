@@ -15,12 +15,6 @@ namespace WingtipToys
 {
 	public partial class SiteMaster : MasterPage
 	{
-		private readonly string _connectionString;
-		public SiteMaster()
-		{
-			_connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-		}
-
 		private const string AntiXsrfTokenKey = "__AntiXsrfToken";
 		private const string AntiXsrfUserNameKey = "__AntiXsrfUserName";
 		private string _antiXsrfTokenValue;
@@ -85,25 +79,20 @@ namespace WingtipToys
 		{
 			List<Category> categories = new List<Category>();
 
-			using (SqlConnection conn = new SqlConnection(_connectionString))
+			using (SqlDataReader reader = DbHelper.ExecuteProcedureReader("GetCategories"))
 			{
-				using (SqlCommand cmd = new SqlCommand("GetCategories", conn))
+				while (reader.Read())
 				{
-					cmd.CommandType = CommandType.StoredProcedure;
-					conn.Open();
-					using (SqlDataReader reader = cmd.ExecuteReader())
+					categories.Add(new Category
 					{
-						return reader.Cast<IDataRecord>()
-						 .Select(r => new Category
-						 {
-							 CategoryID = r.GetInt32(0),	
-							 CategoryName = r.GetString(1) 
-						 })
-						 .ToList();
-					}
+						CategoryID = reader.GetInt32(0),
+						CategoryName = reader.GetString(1)
+					});
 				}
 			}
+			return categories;
 		}
+
 		protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
 		{
 			Context.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
