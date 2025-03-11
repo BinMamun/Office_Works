@@ -90,7 +90,7 @@
                             <a class="nav-link" runat="server" href="~/Pages/Contact">Contact</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" runat="server" href="~/Pages/ProductDetails">Products</a>
+                            <a class="nav-link" runat="server" href="~/Pages/ProductList">Products</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" runat="server" href="~/Pages/Category">Category</a>
@@ -119,39 +119,27 @@
                 </div>
             </div>
         </div>
-        <%--<div id="TitleContent">
-            <div id="CategoryMenu" style="text-align: center">
-                <asp:ListView ID="categoryList"
-                    ItemType="WingtipToys.Models.Category"
-                    runat="server"
-                    SelectMethod="GetCategories">
-                    <ItemTemplate>
-                        <b style="font-size: large; font-style: normal">
-                            <a href="Pages/ProductList.aspx?id=<%#: Item.CategoryID %>">
-                                <%#: Item.CategoryName %>
-                            </a>
-                        </b>
-                    </ItemTemplate>
-                    <ItemSeparatorTemplate>|  </ItemSeparatorTemplate>
-                </asp:ListView>
-            </div>
-            <br />
-        </div>--%>
 
         <div id="TitleContent" style="text-align: center" class="mt-1">
             <a runat="server" href="~/Pages">
-                <asp:Image  ID="Image1" runat="server" Width="300px" ImageUrl="~/Images/logo.jpg" BorderStyle="None" />
-            </a>  
+                <asp:Image ID="Image1" runat="server" Width="300px" ImageUrl="~/Images/logo.jpg" BorderStyle="None" />
+            </a>
             <br />
+
             <div id="CategoryMenu" style="text-align: center" class="mt-2">
+                <b style="font-size: large; font-style: normal;">
+                    <a style="text-decoration: none;"
+                        href="/Pages/ProductList.aspx?id=0">All
+                    </a>
+                </b> | 
                 <asp:ListView ID="categoryList"
                     ItemType="WingtipToys.Models.Category"
                     runat="server"
                     SelectMethod="GetCategories">
                     <ItemTemplate>
                         <b style="font-size: large; font-style: normal;">
-                            <a style="text-decoration: none;" 
-                                href="/ProductList.aspx?id=<%#: Item.CategoryID %>">
+                            <a style="text-decoration: none;"
+                                href="/Pages/ProductList.aspx?id=<%#: Item.CategoryID %>">
                                 <%#: Item.CategoryName %>
                             </a>
                         </b>
