@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.UI;
 
-namespace WingtipToys
+namespace WingtipToys.Pages
 {
 	public partial class About : Page
 	{

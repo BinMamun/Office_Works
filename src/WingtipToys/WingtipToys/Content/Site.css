@@ -7,10 +7,9 @@ body {
 
 
 .logo-image {
-    width: 300px; /* Set the width */
     height: auto; /* Maintain aspect ratio */
-    border-radius: 15px; /* Rounded corners */
-    margin: 10px auto;
+    border-radius: 5px; /* Rounded corners */
+    margin: 10px 10px;
 }
 
 /* Wrapping element */

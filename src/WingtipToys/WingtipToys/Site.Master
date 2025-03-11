@@ -74,20 +74,32 @@
         </div>--%>
         <div class="navbar navbar-expand-lg navbar-dark bg-primary navbar-fixed-top">
             <div class="container">
-                <a class="navbar-brand" runat="server" href="~/">Wingtip</a>
+                <div id="TitleContent">
+                    <a runat="server" href="~/Pages/" class="navbar-brand">
+                        <asp:Image ID="Image1" runat="server" Width="50px" CssClass="logo-image" ImageUrl="~/Images/logo.jpg" BorderStyle="None" />
+                    </a>
+                    <br />
+                </div>
+                <a class="navbar-brand" runat="server" href="~/Pages">Wingtip</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" runat="server" aria-current="page" href="~/">Home</a>
+                            <a class="nav-link" runat="server" aria-current="page" href="~/Pages/">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" runat="server" href="~/About">About</a>
+                            <a class="nav-link" runat="server" href="~/Pages/About">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" runat="server" href="~/Contact">Contact</a>
+                            <a class="nav-link" runat="server" href="~/Pages/Contact">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" runat="server" href="~/Pages/ProductDetails">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" runat="server" href="~/Pages/Category">Category</a>
                         </li>
                     </ul>
 
@@ -113,16 +125,10 @@
                 </div>
             </div>
         </div>
-        <div id="TitleContent" class="text-center">
-            <a runat="server" href="~/">
-                <asp:Image ID="Image1" runat="server" Width="300px" CssClass="logo-image" ImageUrl="~/Images/logo.jpg" BorderStyle="None" />
-            </a>
-            <br />
-        </div>
+
         <div class="container body-content flex-grow-1 mb-5">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
-
         </div>
         <hr />
         <div class="container mt-auto text-center">

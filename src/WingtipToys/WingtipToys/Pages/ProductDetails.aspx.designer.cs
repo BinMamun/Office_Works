@@ -8,9 +8,9 @@
 //------------------------------------------------------------------------------
 
 
-namespace WingtipToys
+namespace WingtipToys.Pages
 {
-	public partial class _Default
+	public partial class ProductDetails
 	{
 	}
 }
