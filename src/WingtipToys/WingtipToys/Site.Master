@@ -74,12 +74,6 @@
         </div>--%>
         <div class="navbar navbar-expand-lg navbar-dark bg-primary navbar-fixed-top">
             <div class="container">
-                <div id="TitleContent">
-                    <a runat="server" href="~/Pages/" class="navbar-brand">
-                        <asp:Image ID="Image1" runat="server" Width="50px" CssClass="logo-image" ImageUrl="~/Images/logo.jpg" BorderStyle="None" />
-                    </a>
-                    <br />
-                </div>
                 <a class="navbar-brand" runat="server" href="~/Pages">Wingtip</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -123,6 +117,47 @@
                         </LoggedInTemplate>
                     </asp:LoginView>
                 </div>
+            </div>
+        </div>
+        <%--<div id="TitleContent">
+            <div id="CategoryMenu" style="text-align: center">
+                <asp:ListView ID="categoryList"
+                    ItemType="WingtipToys.Models.Category"
+                    runat="server"
+                    SelectMethod="GetCategories">
+                    <ItemTemplate>
+                        <b style="font-size: large; font-style: normal">
+                            <a href="Pages/ProductList.aspx?id=<%#: Item.CategoryID %>">
+                                <%#: Item.CategoryName %>
+                            </a>
+                        </b>
+                    </ItemTemplate>
+                    <ItemSeparatorTemplate>|  </ItemSeparatorTemplate>
+                </asp:ListView>
+            </div>
+            <br />
+        </div>--%>
+
+        <div id="TitleContent" style="text-align: center" class="mt-1">
+            <a runat="server" href="~/Pages">
+                <asp:Image  ID="Image1" runat="server" Width="300px" ImageUrl="~/Images/logo.jpg" BorderStyle="None" />
+            </a>  
+            <br />
+            <div id="CategoryMenu" style="text-align: center" class="mt-2">
+                <asp:ListView ID="categoryList"
+                    ItemType="WingtipToys.Models.Category"
+                    runat="server"
+                    SelectMethod="GetCategories">
+                    <ItemTemplate>
+                        <b style="font-size: large; font-style: normal;">
+                            <a style="text-decoration: none;" 
+                                href="/ProductList.aspx?id=<%#: Item.CategoryID %>">
+                                <%#: Item.CategoryName %>
+                            </a>
+                        </b>
+                    </ItemTemplate>
+                    <ItemSeparatorTemplate>|  </ItemSeparatorTemplate>
+                </asp:ListView>
             </div>
         </div>
 

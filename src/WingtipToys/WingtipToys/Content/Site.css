@@ -4,13 +4,6 @@ body {
     height:100%;
 }
 
-
-.logo-image {
-    height: auto; /* Maintain aspect ratio */
-    border-radius: 5px; /* Rounded corners */
-    margin: 10px 10px;
-}
-
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
