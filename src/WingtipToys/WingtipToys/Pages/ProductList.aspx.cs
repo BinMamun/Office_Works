@@ -42,9 +42,9 @@ namespace WingtipToys.Pages
 					{
 						ProductID = reader.GetInt32(0),
 						ProductName = reader.GetString(1),
-						ImagePath = reader.GetString(4),
 						UnitPrice = reader.GetDouble(2),
 						Description = reader.GetString(3),
+						ImagePath = reader.GetString(4),
 						CategoryID = reader.GetInt32(5)
 					});
 				}

@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="Products" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true"
     CodeBehind="ProductList.aspx.cs" Inherits="WingtipToys.Pages.ProductList" %>
 
-<asp:Content ID="Content" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <section>
         <div>
             <hgroup>
