@@ -77,5 +77,23 @@ namespace WingtipToys.Logic
             return _db.ShoppingCartItems.Where(
                 c => c.CartId == ShoppingCartId).ToList();
         }
+
+        public decimal GetTotal()
+        {
+            ShoppingCartId = GetCartId();
+            
+            
+            decimal? total1 = (decimal?)(from cartItems in _db.ShoppingCartItems
+                               where cartItems.CartId == ShoppingCartId
+                               select (int?)cartItems.Quantity *
+                               cartItems.Product.UnitPrice).Sum();
+
+            //var total2 = (decimal?)(_db.ShoppingCartItems
+            //    .Where(x => x.CartId == ShoppingCartId)
+            //    .Select(y => y.Quantity * y.Product.UnitPrice).Sum());
+
+            return total1 ?? decimal.Zero;
+            //return total2 ?? decimal.Zero;
+        }
     }
 }
