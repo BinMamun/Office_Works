@@ -83,17 +83,16 @@ namespace WingtipToys.Logic
             ShoppingCartId = GetCartId();
             
             
-            decimal? total1 = (decimal?)(from cartItems in _db.ShoppingCartItems
-                               where cartItems.CartId == ShoppingCartId
-                               select (int?)cartItems.Quantity *
-                               cartItems.Product.UnitPrice).Sum();
+            //decimal? total = (decimal?)(from cartItems in _db.ShoppingCartItems
+            //                   where cartItems.CartId == ShoppingCartId
+            //                   select (int?)cartItems.Quantity *
+            //                   cartItems.Product.UnitPrice).Sum();
 
-            //var total2 = (decimal?)(_db.ShoppingCartItems
-            //    .Where(x => x.CartId == ShoppingCartId)
-            //    .Select(y => y.Quantity * y.Product.UnitPrice).Sum());
+			var total = (decimal?)_db.ShoppingCartItems
+				.Where(x => x.CartId == ShoppingCartId)
+				.Select(y => y.Quantity * y.Product.UnitPrice).Sum();
 
-            return total1 ?? decimal.Zero;
-            //return total2 ?? decimal.Zero;
+			return total ?? decimal.Zero;
         }
     }
 }
