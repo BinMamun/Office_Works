@@ -94,5 +94,15 @@ namespace WingtipToys.Logic
 
 			return total ?? decimal.Zero;
         }
+
+        public double GetTotalQuantity()
+		{
+            ShoppingCartId = GetCartId();
+            var totalQty = _db.ShoppingCartItems?
+                .Where(x => x.CartId == ShoppingCartId)
+                .Select(y => (double?)y.Quantity).Sum();
+
+            return totalQty ?? 0;
+        }
     }
 }
