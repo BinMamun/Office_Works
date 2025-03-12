@@ -26,10 +26,16 @@
         </Columns>
     </asp:GridView>
     <div>
-        <p></p>
         <strong>
             <asp:Label ID="LabelTotalText" runat="server" Text="Order Total: "></asp:Label>
             <asp:Label ID="lblTotal" runat="server" EnableViewState="false"></asp:Label>
+        </strong>
+    </div>
+    <br />
+    <div>
+        <strong>
+            <asp:Label ID="LabelTotalQtyText" runat="server" Text="Total Qty: "></asp:Label>
+            <asp:Label ID="lblTotalQty" runat="server" Font-Bold="true"></asp:Label>
         </strong>
     </div>
     <br />

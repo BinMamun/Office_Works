@@ -15,16 +15,19 @@ namespace WingtipToys.Pages
 		{
             using (ShoppingCartActions usersShoppingCart = new ShoppingCartActions())
             {
-                decimal cartTotal = 0;
-                cartTotal = usersShoppingCart.GetTotal();
+                var cartTotal = usersShoppingCart.GetTotal();
+                var totalQty = usersShoppingCart.GetTotalQuantity();
                 if (cartTotal > 0)
                 {
                     lblTotal.Text = String.Format("{0:c}", cartTotal);
+                    lblTotalQty.Text = String.Format("{0:F2}", totalQty);
                 }
                 else
                 {
                     LabelTotalText.Text = "";
                     lblTotal.Text = "";
+                    LabelTotalQtyText.Text = "";
+                    lblTotalQty.Text = "";
                     ShoppingCartTitle.InnerText = "Shopping Cart is Empty";
                 }
             }
@@ -33,6 +36,11 @@ namespace WingtipToys.Pages
 		{
 			ShoppingCartActions actions = new ShoppingCartActions();
 			return actions.GetCartItems();
+		}
+
+		protected void CartList_SelectedIndexChanged(object sender, EventArgs e)
+		{
+
 		}
 	}
 }
