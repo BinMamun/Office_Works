@@ -4,9 +4,9 @@
     <div id="ShoppingCartTitle" runat="server" class="ContentHead">
         <h1>Shopping Cart</h1>
     </div>
-    <asp:GridView ID="CartList" runat="server" AutoGenerateColumns="False" ShowFooter="True" GridLines="Vertical" CellPadding="4" ItemType="WingtipToys.Models.CartItem" SelectMethod="GetShoppingCartItems" CssClass="table table-striped table-bordered table-sm table-hover">
+    <asp:GridView ID="CartList" runat="server" AutoGenerateColumns="False" ShowFooter="True" GridLines="Vertical" CellPadding="4" ItemType="WingtipToys.Models.CartItem" SelectMethod="GetShoppingCartItems" CssClass="table table-striped table-bordered table-sm table-hover table-responsive" HeaderStyle-CssClass="table-primary">
         <Columns>
-            <asp:BoundField DataField="Product.ProductName" HeaderText="Name" />
+            <asp:BoundField DataField="Product.ProductName" HeaderText="Name" SortExpression="ProductName" />
             <asp:BoundField DataField="Product.UnitPrice" HeaderText="Price (each)" DataFormatString="{0:c}" />
             <asp:TemplateField HeaderText="Quantity">
                 <ItemTemplate>
