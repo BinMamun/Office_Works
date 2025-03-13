@@ -67,6 +67,19 @@ BEGIN
 END;
 GO
 
+
+--Stored Procedure to Add New Category
+
+CREATE PROCEDURE AddCategory
+@CategoryName NVARCHAR(100)
+AS
+BEGIN
+	INSERT INTO Categories(CategoryName)
+	VALUES(@CategoryName);
+END;
+GO
+
+
 --Stored Procedure to Get All Products
 CREATE PROCEDURE GetProducts
 AS
@@ -97,5 +110,28 @@ AS
 BEGIN
     SELECT CategoryID, CategoryName
     FROM Categories
+END;
+GO
+
+
+--Stored Procedure to Update Category
+CREATE PROCEDURE UpdateCategory
+    @CategoryID INT,
+    @CategoryName NVARCHAR(100)    
+AS
+BEGIN
+    UPDATE Categories
+    SET CategoryName = @CategoryName
+    WHERE CategoryID = @CategoryID;
+END;
+GO
+
+--Stored Procedure to Delete Category
+
+CREATE PROCEDURE DeleteCategory
+    @CategoryID INT
+AS
+BEGIN
+    DELETE FROM Categories WHERE CategoryID = @CategoryID;
 END;
 GO
