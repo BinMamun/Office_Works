@@ -36,9 +36,9 @@ namespace ProductManager.Pages
             Load_Categories();
         }
 
-        protected void btnAddProduct_Click(object sender, EventArgs e)
+        protected void btnAddCategory_Click(object sender, EventArgs e)
         {
-            Response.Redirect("AddProduct.aspx");
+            Response.Redirect("AddCategory.aspx");
         }
     }
 }
