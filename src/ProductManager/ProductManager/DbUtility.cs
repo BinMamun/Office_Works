@@ -7,7 +7,7 @@ using System.Linq;
 
 public class DbUtility
 {
-    private static readonly string _connectionString = ConfigurationManager.ConnectionStrings["ProductDB"].ConnectionString;
+    private static readonly string _connectionString = ConfigurationManager.ConnectionStrings["ProductManagerDB"].ConnectionString;
 
     // Execute Non-Query (INSERT, UPDATE, DELETE)
     public static int ExecuteNonQuery(string procedureName, params SqlParameter[] parameters)
