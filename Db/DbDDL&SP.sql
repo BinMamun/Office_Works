@@ -76,3 +76,16 @@ BEGIN
     INNER JOIN Categories c ON p.CategoryID = c.CategoryID;
 END;
 GO
+
+
+--Stored Procedure to Get All Products by Category
+CREATE PROCEDURE GetProductsByCategory
+@CategoryID INT
+AS
+BEGIN
+    SELECT p.ProductID, p.ProductName, c.CategoryName, p.Price, p.PicturePath, p.Stock
+    FROM Products p
+    INNER JOIN Categories c ON p.CategoryID = c.CategoryID
+	WHERE C.CategoryID = @CategoryID;
+END;
+GO
