@@ -1,5 +1,6 @@
 ﻿using ProductManager.Logic;
 using System;
+using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -30,7 +31,8 @@ namespace ProductManager.Pages
         protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             int categoryId = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Value);
-			DbUtility.ExecuteStoredProcedure("DeleteCategory");
+			DbUtility.ExecuteStoredProcedure("DeleteCategory", new Dictionary<string, object>
+			{{ "@CategoryId", categoryId} });
             Load_Categories();
         }
 
