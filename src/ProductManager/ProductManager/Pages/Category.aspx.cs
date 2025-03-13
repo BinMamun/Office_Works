@@ -1,0 +1,44 @@
+﻿using ProductManager.Logic;
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace ProductManager.Pages
+{
+	public partial class Category : Page
+	{
+		protected void Page_Load(object sender, EventArgs e)
+		{
+			if (!IsPostBack)
+			{
+				Load_Categories();
+			}
+		}
+
+		private void Load_Categories()
+		{
+			GridView1.DataSource = CategoryLogic.GetCategories();
+			GridView1.DataBind();
+		}
+
+        protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            int categoryId = Convert.ToInt32(GridView1.DataKeys[e.NewEditIndex].Value);
+            Response.Redirect($"EditCategory.aspx?categoryId={categoryId}");
+        }
+
+        protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            int categoryId = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Value);
+			DbUtility.ExecuteStoredProcedure("DeleteCategory");
+            Load_Categories();
+        }
+
+        protected void btnAddProduct_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("AddProduct.aspx");
+        }
+    }
+}
