@@ -89,3 +89,13 @@ BEGIN
 	WHERE C.CategoryID = @CategoryID;
 END;
 GO
+
+
+--Stored Procedure to Get All Categories
+CREATE PROCEDURE GetCategories
+AS
+BEGIN
+    SELECT CategoryID, CategoryName
+    FROM Categories
+END;
+GO
