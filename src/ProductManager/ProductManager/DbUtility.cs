@@ -27,7 +27,7 @@ public class DbUtility
         }
     }
 
-    public static void ExecuteStoredProcedure(string procedureName, Dictionary<string, object> parameters)
+    public static void ExecuteStoredProcedure(string procedureName, Dictionary<string, object> parameters = null)
     {
         SqlParameter[] sqlParameters = parameters?
             .Select(p => new SqlParameter(p.Key, p.Value ?? DBNull.Value))
