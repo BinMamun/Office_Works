@@ -20,7 +20,14 @@
                 </ItemTemplate>
             </asp:TemplateField>
             <asp:BoundField DataField="CategoryName" HeaderText="Category Name" SortExpression="CategoryName" />
-            <asp:CommandField ShowEditButton="True" ShowDeleteButton="True" />
+
+            <asp:TemplateField HeaderText="Actions">
+            <ItemTemplate>
+                <asp:LinkButton ID="btnEdit" runat="server" CssClass="btn btn-sm btn-outline-dark" CommandName="Edit" Text="Edit"></asp:LinkButton>                
+                <asp:LinkButton ID="btnDelete" runat="server" CssClass="btn btn-sm btn-outline-primary" CommandName="Delete" Text="Delete" OnClientClick="return confirm('Are you sure?');">
+                </asp:LinkButton>
+            </ItemTemplate>
+        </asp:TemplateField>
         </Columns>
     </asp:GridView>
 
