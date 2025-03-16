@@ -12,5 +12,10 @@ namespace ProductManager.Logic
 		{
 			return DbUtility.ExecuteReader("GetCategories");
 		}
+
+		public static DataTable GetCategorybyId(int categoryId)
+		{
+			return DbUtility.ExecuteReader("sp_GetCategoryById", new Dictionary<string, object> { { "@CategoryId", categoryId } });
+		}
 	}
 }
