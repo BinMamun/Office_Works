@@ -17,5 +17,15 @@ namespace ProductManager.Logic
 		{
 			return DbUtility.ExecuteReader("sp_GetCategoryById", new Dictionary<string, object> { { "@CategoryId", categoryId } });
 		}
+
+		public static void UpdateCategory(int categoryId, string categoryName)
+		{
+			DbUtility.ExecuteStoredProcedure("UpdateCategory",
+				new Dictionary<string, object>
+				{
+					{"@CategoryId", categoryId },
+					{"@CategoryName", categoryName}
+				});
+		}
 	}
 }
