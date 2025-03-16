@@ -13,14 +13,15 @@ namespace ProductManager.Pages
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			var categories = CategoryLogic.GetCategories();
+			if (!IsPostBack)
+			{
+				var categories = CategoryLogic.GetCategories();
 
-			ddlCategories.DataSource = categories;
-			ddlCategories.DataTextField = "CategoryName";
-			ddlCategories.DataValueField = "CategoryID";
-			ddlCategories.DataBind();
-
-			//ddlCategories.Items.Insert(0, new ListItem("--Select Category--", "0"));
+				ddlCategories.DataSource = categories;
+				ddlCategories.DataTextField = "CategoryName";
+				ddlCategories.DataValueField = "CategoryID";
+				ddlCategories.DataBind();
+			}
 		}
 
 		protected void btnAddProduct_Click(object sender, EventArgs e)
@@ -28,9 +29,9 @@ namespace ProductManager.Pages
 			string imagePath = "";
 			if (ProductImageFile.HasFile)
 			{
-				string filename = Path.GetFileName(ProductImageFile.PostedFile.FileName);
-				imagePath = "Images/" + filename;
-				ProductImageFile.SaveAs(Server.MapPath("~/" + imagePath));
+				var filename = Path.GetFileName(ProductImageFile.PostedFile.FileName);
+				imagePath = $"{Guid.NewGuid()} - {filename}";
+				ProductImageFile.SaveAs(Server.MapPath("~/Images/" + imagePath));
 			}
 
 			var parameters = new Dictionary<string, object>

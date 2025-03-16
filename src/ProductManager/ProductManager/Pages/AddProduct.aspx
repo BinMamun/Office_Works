@@ -10,6 +10,6 @@
              <asp:ListItem Text="--Select Category--" Value="0" Selected="True"></asp:ListItem>
         </asp:DropDownList>
         <asp:FileUpload ID="ProductImageFile" runat="server" CssClass="form-control mt-2" />
-        <asp:Button ID="btnAddProduct" runat="server" class="btn btn-sm btn-primary mt-2s" OnClick="btnAddProduct_Click" Text="Add Product" />
+        <asp:Button ID="btnAddProduct" runat="server" class="btn btn-sm btn-primary mt-2" OnClick="btnAddProduct_Click" Text="Add Product" />
     </div>
 </asp:Content>
