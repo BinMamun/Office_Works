@@ -18,10 +18,15 @@ namespace ProductManager.Pages
 			}
 		}
 
-		protected void Load_Products()
+		private void Load_Products()
 		{
 			gvProducts.DataSource = ProductLogic.GetProducts();
 			gvProducts.DataBind();
+		}
+
+		protected void btnAddProduct_Click(object sender, EventArgs e)
+		{
+			Response.Redirect("AddProduct.aspx");
 		}
 	}
 }

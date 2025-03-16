@@ -1,14 +1,14 @@
 ﻿<%@ Page Title="Products" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Products.aspx.cs" Inherits="ProductManager.Pages.Products" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <%--<div class="row d-flex align-items-center">
+    <div class="row d-flex align-items-center">
         <div class="col-10">
             <h2 class="mt-3">Product List</h2>
         </div>
         <div class="col-2">
             <asp:Button ID="btnAddProduct" runat="server" Text="Add New" OnClick="btnAddProduct_Click" CssClass="btn btn-sm btn-primary" />
         </div>
-    </div>--%>
+    </div>
 
     <asp:GridView ID="gvProducts" runat="server" AutoGenerateColumns="False" CssClass="table table-striped table-sm table-hover mt-3" HeaderStyle-CssClass="table-primary">
         <Columns>

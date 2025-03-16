@@ -103,6 +103,7 @@
   <ItemGroup>
     <Content Include="Pages\About.aspx" />
     <Content Include="Pages\AddCategory.aspx" />
+    <Content Include="Pages\AddProduct.aspx" />
     <Content Include="Pages\Category.aspx" />
     <Content Include="Pages\Contact.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
@@ -204,6 +205,13 @@
     </Compile>
     <Compile Include="Pages\AddCategory.aspx.designer.cs">
       <DependentUpon>AddCategory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\AddProduct.aspx.cs">
+      <DependentUpon>AddProduct.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\AddProduct.aspx.designer.cs">
+      <DependentUpon>AddProduct.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\Category.aspx.cs">
       <DependentUpon>Category.aspx</DependentUpon>
