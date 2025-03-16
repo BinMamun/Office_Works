@@ -126,6 +126,7 @@
     <Content Include="Pages\Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Pages\EditCategory.aspx" />
     <Content Include="Pages\EditProduct.aspx" />
     <Content Include="Pages\Products.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -240,6 +241,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Logic\ProductLogic.cs" />
+    <Compile Include="Pages\EditCategory.aspx.cs">
+      <DependentUpon>EditCategory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\EditCategory.aspx.designer.cs">
+      <DependentUpon>EditCategory.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Pages\EditProduct.aspx.cs">
       <DependentUpon>EditProduct.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
