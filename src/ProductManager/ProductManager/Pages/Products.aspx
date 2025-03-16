@@ -10,7 +10,7 @@
         </div>
     </div>
 
-    <asp:GridView ID="gvProducts" runat="server" AutoGenerateColumns="False" CssClass="table table-striped table-sm table-hover mt-3" HeaderStyle-CssClass="table-primary">
+    <asp:GridView ID="gvProducts" runat="server" AutoGenerateColumns="False" CssClass="table table-striped table-sm table-hover mt-3" HeaderStyle-CssClass="table-primary" DataKeyNames="ProductID" OnRowCommand ="gvProducts_RowCommand">
         <Columns>
             <asp:TemplateField HeaderText="S No.">
                 <ItemTemplate>

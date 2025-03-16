@@ -29,5 +29,40 @@ namespace ProductManager.Pages
 			Response.Redirect("AddProduct.aspx");
 		}
 
+		//protected void gvProducts_RowEditing(object sender, GridViewEditEventArgs e)
+		//{
+		//	var id = Convert.ToInt32(gvProducts.DataKeys[e.NewEditIndex].Value);
+		//	Response.Redirect($"EditProduct.aspx?productId={id}");
+		//}
+
+
+		//protected void gvProducts_RowDeleting(object sender, GridViewDeleteEventArgs e)
+		//{
+		//	var id = Convert.ToInt32(gvProducts.DataKeys[e.RowIndex].Value);
+		//	DbUtility.ExecuteStoredProcedure("DeleteProduct", new Dictionary<string, object>
+		//	{
+		//		{"@ProductID", id }
+		//	});
+
+		//	Load_Products();
+		//}
+
+		protected void gvProducts_RowCommand(object sender, GridViewCommandEventArgs e)
+		{
+			var id = Convert.ToInt32(e.CommandArgument);
+			if (e.CommandName == "Edit")
+			{
+				Response.Redirect($"EditProduct.aspx?productId={id}");
+			}
+			else if (e.CommandName == "Delete")
+			{
+				DbUtility.ExecuteStoredProcedure("DeleteProduct", new Dictionary<string, object>
+				{
+					{"@ProductID", id }
+				});
+				e.Handled = true;
+			}
+			Load_Products();
+		}
 	}
 }
