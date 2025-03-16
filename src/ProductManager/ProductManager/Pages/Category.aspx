@@ -10,7 +10,7 @@
         </div>
     </div>
 
-    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="CategoryID" OnRowEditing="GridView1_RowEditing" OnRowDeleting="GridView1_RowDeleting" CssClass="table table-striped table-sm table-hover mt-3" HeaderStyle-CssClass="table-primary">
+    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="CategoryID" OnRowCommand="gvCategory_Command" CssClass="table table-striped table-sm table-hover mt-3" HeaderStyle-CssClass="table-primary">
 
         <Columns>
             <asp:TemplateField HeaderText="S No.">
@@ -19,15 +19,17 @@
                         Text="<%#: Container.DataItemIndex + 1 %>" ReadOnly="true"></asp:Label>
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:BoundField DataField="CategoryName" HeaderText="Category Name" SortExpression="CategoryName" />
+            <asp:BoundField DataField="CategoryName" HeaderText="Category Name" HeaderStyle-CssClass="text-center" SortExpression="CategoryName" ItemStyle-CssClass="text-center" />
 
-            <asp:TemplateField HeaderText="Actions">
-            <ItemTemplate>
-                <asp:LinkButton ID="btnEdit" runat="server" CssClass="btn btn-sm btn-outline-dark" CommandName="Edit" Text="Edit"></asp:LinkButton>                
-                <asp:LinkButton ID="btnDelete" runat="server" CssClass="btn btn-sm btn-outline-primary" CommandName="Delete" Text="Delete" OnClientClick="return confirm('Are you sure?');">
+            <asp:TemplateField HeaderText="Actions" HeaderStyle-CssClass="text-end ms-3">
+                <ItemTemplate>
+                    <div class="text-end">
+                        <asp:LinkButton ID="btnEdit" runat="server" CssClass="btn btn-sm btn-outline-dark" CommandName="Edit" Text="Edit" CommandArgument='<%# Eval("CategoryID") %>'></asp:LinkButton>
+                        <asp:LinkButton ID="btnDelete" runat="server" CssClass="btn btn-sm btn-outline-primary" CommandName="Delete" Text="Delete" CommandArgument='<%# Eval("CategoryID") %>' OnClientClick="return confirm('Are you sure?');">
                 </asp:LinkButton>
-            </ItemTemplate>
-        </asp:TemplateField>
+                    </div>
+                </ItemTemplate>
+            </asp:TemplateField>
         </Columns>
     </asp:GridView>
 

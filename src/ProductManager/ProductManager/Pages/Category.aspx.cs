@@ -40,5 +40,23 @@ namespace ProductManager.Pages
         {
             Response.Redirect("AddCategory.aspx");
         }
-    }
+
+		protected void gvCategory_Command(object sender, GridViewCommandEventArgs e)
+		{
+			var id = Convert.ToInt32(e.CommandArgument);
+			if (e.CommandName == "Edit")
+			{
+				Response.Redirect($"EditCategory.aspx?categoryId={id}");
+			}
+			else if (e.CommandName == "Delete")
+			{
+				DbUtility.ExecuteStoredProcedure("DeleteCategory", new Dictionary<string, object>
+				{
+					{"@CategoryID", id }
+				});
+				e.Handled = true;
+			}
+			Load_Categories();
+		}
+	}
 }
