@@ -135,3 +135,14 @@ BEGIN
     DELETE FROM Categories WHERE CategoryID = @CategoryID;
 END;
 GO
+
+--Stored Procedure to find Category by ID
+
+CREATE OR ALTER PROCEDURE sp_GetCategoryById
+	@CategoryId INT
+AS
+BEGIN
+	SELECT CategoryID, CategoryName FROM Categories
+	WHERE CategoryID = @CategoryId
+END;
+GO
