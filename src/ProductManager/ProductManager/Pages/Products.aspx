@@ -20,9 +20,9 @@
             </asp:TemplateField>
 
             <asp:TemplateField HeaderText="Image">
-                <asp:ItemTemplate>
-                    <img src='<%# Eval("PicturePath") %>' width="50" height="50" />
-                </asp:ItemTemplate>
+                <ItemTemplate>
+                    <img src='<%# Eval("PicturePath") != DBNull.Value && !string.IsNullOrEmpty(Eval("PicturePath").ToString()) ? ResolveUrl("~/Images/") + Eval("PicturePath") : ResolveUrl("~/Images/default.png") %>' width="50" height="50" />
+                </ItemTemplate>
             </asp:TemplateField>
 
             <asp:TemplateField HeaderText="Product Name">
@@ -30,7 +30,7 @@
                     <%# Eval("ProductName") %>
                 </ItemTemplate>
             </asp:TemplateField>
-             <asp:TemplateField HeaderText="Category">
+            <asp:TemplateField HeaderText="Category">
                 <ItemTemplate>
                     <%# Eval("CategoryName") %>
                 </ItemTemplate>
@@ -38,7 +38,7 @@
 
             <asp:TemplateField HeaderText="Price">
                 <ItemTemplate>
-                     <%# Eval("Price", "{0:C}") %>
+                    <%# Eval("Price", "{0:C}") %>
                 </ItemTemplate>
             </asp:TemplateField>
 
@@ -49,11 +49,11 @@
             </asp:TemplateField>
 
             <asp:TemplateField HeaderText="Action">
-                    <ItemTemplate>
-                        <asp:Button runat="server" Text="Edit" CssClass="btn btn-sm btn-outline-dark" CommandName="Edit" CommandArgument='<%# Eval("ProductID") %>' />
-                        <asp:Button runat="server" Text="Delete" CssClass="btn btn-sm btn-outline-primary" CommandName="Delete" CommandArgument='<%# Eval("ProductID") %>' OnClientClick="return confirm('Are you sure?');" />
-                    </ItemTemplate>
-                </asp:TemplateField>
+                <ItemTemplate>
+                    <asp:Button runat="server" Text="Edit" CssClass="btn btn-sm btn-outline-dark" CommandName="Edit" CommandArgument='<%# Eval("ProductID") %>' />
+                    <asp:Button runat="server" Text="Delete" CssClass="btn btn-sm btn-outline-primary" CommandName="Delete" CommandArgument='<%# Eval("ProductID") %>' OnClientClick="return confirm('Are you sure?');" />
+                </ItemTemplate>
+            </asp:TemplateField>
         </Columns>
 
     </asp:GridView>
