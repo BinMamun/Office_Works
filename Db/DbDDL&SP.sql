@@ -86,7 +86,7 @@ AS
 BEGIN
     SELECT p.ProductID, p.ProductName, c.CategoryName, p.Price, p.PicturePath, p.Stock
     FROM Products p
-    INNER JOIN Categories c ON p.CategoryID = c.CategoryID;
+    LEFT JOIN Categories c ON p.CategoryID = c.CategoryID;
 END;
 GO
 
