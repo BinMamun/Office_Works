@@ -28,5 +28,7 @@ namespace ProductManager.Pages
 		{
 			Response.Redirect("AddProduct.aspx");
 		}
+
+		
 	}
 }
