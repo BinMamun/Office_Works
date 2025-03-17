@@ -39,9 +39,9 @@
                 <ItemTemplate>
                     <%# Eval("ProductName") %>
                 </ItemTemplate>
+
                 <EditItemTemplate>
-                    <asp:TextBox ID="txtProductName" runat="server" CssClass="form-control">
-                    </asp:TextBox>
+                    <asp:TextBox ID="txtProductName" runat="server" Text='<%# Bind ("ProductName") %>' CssClass="form-control"></asp:TextBox>
                 </EditItemTemplate>
             </asp:TemplateField>
 

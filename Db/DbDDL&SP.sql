@@ -84,14 +84,16 @@ GO
 CREATE OR ALTER PROCEDURE GetProducts
 AS
 BEGIN
-    SELECT P.ProductID, P.ProductName, P.Price, p.Stock, 
-       c.CategoryID, c.CategoryName, p.PicturePath
+    SELECT P.ProductID, P.ProductName,C.CategoryID, C.CategoryName,
+	P.Price, P.Stock, P.PicturePath
     FROM Products P
-    LEFT JOIN Categories c ON p.CategoryID = c.CategoryID
+    LEFT JOIN Categories C ON P.CategoryID = C.CategoryID
 	ORDER BY P.ProductName;
 END;
 GO
 
+
+EXEC GetProducts
 --Stored Procedure to Get Product by Id
 CREATE PROCEDURE GetProductById
 @ProductID INT

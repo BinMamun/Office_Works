@@ -1,6 +1,7 @@
 ﻿using ProductManager.Logic;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -44,7 +45,7 @@ namespace ProductManager.Pages
 					ddlCategory.DataBind();
 
 					// Set selected value
-					string categoryId = DataBinder.Eval(e.Row.DataItem, "CategoryID").ToString();
+					var categoryId = DataBinder.Eval(e.Row.DataItem, "CategoryID").ToString();
 					ddlCategory.SelectedValue = categoryId;
 				}
 			}

@@ -38,7 +38,7 @@ namespace ProductManager.Logic
 				 {"@ProductID", productId},
 				 {"@ProductName", productName},
 				 {"@CategoryID", categoryId},
-				 {"@@Price", price},
+				 {"@Price", price},
 				 {"@PicturePath ", picturePath},
 				 {"@Stock ", stock}
 			});
