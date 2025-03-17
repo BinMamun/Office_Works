@@ -23,6 +23,14 @@ namespace ProductManager.Logic
 				});
 		}
 
+		public static DataTable GetProductById(int productId)
+		{
+			return DbUtility.ExecuteReader("GetProductById", new Dictionary<string, object>
+				{
+					{"@ProductId", productId}
+				});
+		}
+
 		public static void UpdateProduct(int productId, string productName, int categoryId, decimal price, string picturePath, int stock)
 		{
 			DbUtility.ExecuteStoredProcedure("UpdateProduct", new Dictionary<string, object>

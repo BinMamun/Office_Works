@@ -81,12 +81,14 @@ GO
 
 
 --Stored Procedure to Get All Products
-CREATE PROCEDURE GetProducts
+CREATE OR ALTER PROCEDURE GetProducts
 AS
 BEGIN
-    SELECT p.ProductID, p.ProductName, c.CategoryName, p.Price, p.PicturePath, p.Stock
-    FROM Products p
-    LEFT JOIN Categories c ON p.CategoryID = c.CategoryID;
+    SELECT P.ProductID, P.ProductName, P.Price, p.Stock, 
+       c.CategoryID, c.CategoryName, p.PicturePath
+    FROM Products P
+    LEFT JOIN Categories c ON p.CategoryID = c.CategoryID
+	ORDER BY P.ProductName;
 END;
 GO
 
