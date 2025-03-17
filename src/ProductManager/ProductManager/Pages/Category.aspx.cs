@@ -18,19 +18,21 @@ namespace ProductManager.Pages
 
 		private void Load_Categories()
 		{
-			GridView1.DataSource = CategoryLogic.GetCategories();
-			GridView1.DataBind();
+			gvCategory.DataSource = CategoryLogic.GetCategories();
+			gvCategory.DataBind();
 		}
 
-        protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
+        protected void gvCategory_RowEditing(object sender, GridViewEditEventArgs e)
         {
-            int categoryId = Convert.ToInt32(GridView1.DataKeys[e.NewEditIndex].Value);
-            Response.Redirect($"EditCategory.aspx?categoryId={categoryId}");
+            //int categoryId = Convert.ToInt32(gvCategory.DataKeys[e.NewEditIndex].Value);
+            //Response.Redirect($"EditCategory.aspx?categoryId={categoryId}");
+			gvCategory.EditIndex = e.NewEditIndex;
+			Load_Categories();
         }
 
-        protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        protected void gvCategory_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            int categoryId = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Value);
+            int categoryId = Convert.ToInt32(gvCategory.DataKeys[e.RowIndex].Value);
 			DbUtility.ExecuteStoredProcedure("DeleteCategory", new Dictionary<string, object>
 			{{ "@CategoryId", categoryId} });
             Load_Categories();

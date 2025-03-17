@@ -10,29 +10,34 @@
         </div>
     </div>
 
-    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="CategoryID" OnRowCommand="gvCategory_Command" CssClass="table table-striped table-sm table-hover mt-3" HeaderStyle-CssClass="table-primary">
+    <asp:GridView ID="gvCategory" runat="server" AutoGenerateColumns="False" DataKeyNames="CategoryID" CssClass="table table-striped table-sm table-hover mt-3" HeaderStyle-CssClass="table-primary"
+        OnRowEditing="gvCategory_RowEditing"
+        OnRowUpdating="gvCategory_RowUpdating">
+        <%--OnRowCancelingEdit="gvCategory_CancelEdit"
+        OnRowDeleting="gvCategory_RowDeleting">--%>
 
         <Columns>
             <asp:TemplateField HeaderText="S No.">
                 <ItemTemplate>
-                    <asp:Label ID="RowDataIndex" Width="40" runat="server"
+                    <asp:Label ID="RowDataIndex" Width="50" runat="server"
                         Text="<%#: Container.DataItemIndex + 1 %>" ReadOnly="true"></asp:Label>
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:BoundField DataField="CategoryName" HeaderText="Category Name" HeaderStyle-CssClass="text-center" SortExpression="CategoryName" ItemStyle-CssClass="text-center" />
 
-            <asp:TemplateField HeaderText="Actions" HeaderStyle-CssClass="text-end ms-3">
+            <asp:TemplateField HeaderText="Category" HeaderStyle-CssClass="text-center" ItemStyle-CssClass="text-center">
                 <ItemTemplate>
-                    <div class="text-end">
-                        <asp:LinkButton ID="btnEdit" runat="server" CssClass="btn btn-sm btn-outline-dark" CommandName="Edit" Text="Edit" CommandArgument='<%# Eval("CategoryID") %>'></asp:LinkButton>
-                        <asp:LinkButton ID="btnDelete" runat="server" CssClass="btn btn-sm btn-outline-primary" CommandName="Delete" Text="Delete" CommandArgument='<%# Eval("CategoryID") %>' OnClientClick="return confirm('Are you sure?');">
-                </asp:LinkButton>
-                    </div>
+                    <asp:Label ID="txtCategoryName" runat="server" Text='<%# Eval("CategoryName") %>'></asp:Label>
                 </ItemTemplate>
             </asp:TemplateField>
+
+            <asp:TemplateField HeaderText="Actions" HeaderStyle-CssClass="text-end ms-3" ItemStyle-CssClass="text-end">
+                <ItemTemplate>
+                    <asp:LinkButton ID="btnEdit" runat="server" CssClass="btn btn-sm btn-outline-dark" CommandName="Edit" Text="Edit" CommandArgument='<%# Eval("CategoryID") %>'></asp:LinkButton>
+                    <asp:LinkButton ID="btnDelete" runat="server" CssClass="btn btn-sm btn-outline-primary" CommandName="Delete" Text="Delete" CommandArgument='<%# Eval("CategoryID") %>' OnClientClick="return confirm('Are you sure?');">
+                </asp:LinkButton>
+                </ItemTemplate>
+            </asp:TemplateField>
+
         </Columns>
     </asp:GridView>
-
-    <br />
-
 </asp:Content>
