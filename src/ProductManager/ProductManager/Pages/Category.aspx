@@ -12,9 +12,9 @@
 
     <asp:GridView ID="gvCategory" runat="server" AutoGenerateColumns="False" DataKeyNames="CategoryID" CssClass="table table-striped table-sm table-hover mt-3" HeaderStyle-CssClass="table-primary"
         OnRowEditing="gvCategory_RowEditing"
-        OnRowUpdating="gvCategory_RowUpdating">
-        <%--OnRowCancelingEdit="gvCategory_CancelEdit"
-        OnRowDeleting="gvCategory_RowDeleting">--%>
+        OnRowUpdating="gvCategory_RowUpdating"
+        OnRowCancelingEdit="gvCategory_CancelEdit"
+        OnRowDeleting="gvCategory_RowDeleting">
 
         <Columns>
             <asp:TemplateField HeaderText="S No.">
@@ -24,18 +24,28 @@
                 </ItemTemplate>
             </asp:TemplateField>
 
-            <asp:TemplateField HeaderText="Category" HeaderStyle-CssClass="text-center" ItemStyle-CssClass="text-center">
+            <asp:TemplateField HeaderText="Name" ItemStyle-Width="250">
                 <ItemTemplate>
-                    <asp:Label ID="txtCategoryName" runat="server" Text='<%# Eval("CategoryName") %>'></asp:Label>
+                    <asp:Label ID="lblCategoryName" runat="server" Text='<%# Eval("CategoryName") %>'></asp:Label>
                 </ItemTemplate>
+                <EditItemTemplate>
+                    <asp:TextBox ID="txtCategoryName" runat="server" Text='<%# Bind("CategoryName") %>' CssClass="form-control" ></asp:TextBox>
+                </EditItemTemplate>
             </asp:TemplateField>
 
             <asp:TemplateField HeaderText="Actions" HeaderStyle-CssClass="text-end ms-3" ItemStyle-CssClass="text-end">
                 <ItemTemplate>
-                    <asp:LinkButton ID="btnEdit" runat="server" CssClass="btn btn-sm btn-outline-dark" CommandName="Edit" Text="Edit" CommandArgument='<%# Eval("CategoryID") %>'></asp:LinkButton>
-                    <asp:LinkButton ID="btnDelete" runat="server" CssClass="btn btn-sm btn-outline-primary" CommandName="Delete" Text="Delete" CommandArgument='<%# Eval("CategoryID") %>' OnClientClick="return confirm('Are you sure?');">
-                </asp:LinkButton>
+                    <asp:LinkButton ID="btnEdit" runat="server" CssClass="btn btn-sm btn-outline-dark" CommandName="Edit" Text="Edit"></asp:LinkButton>
+                    <asp:LinkButton ID="btnDelete" runat="server" CssClass="btn btn-sm btn-outline-primary" CommandName="Delete" Text="Delete" OnClientClick="return confirm('Are you sure?');">
+                    </asp:LinkButton>
                 </ItemTemplate>
+
+                <EditItemTemplate>
+                    <div class="text-end">
+                        <asp:LinkButton ID="btnUpdate" runat="server" CssClass="btn btn-sm btn-primary" CommandName="Update" Text="Update"></asp:LinkButton>
+                        <asp:LinkButton ID="btnCancel" runat="server" CssClass="btn btn-sm btn-dark" CommandName="Cancel" Text="Cancel"></asp:LinkButton>
+                    </div>
+                </EditItemTemplate>
             </asp:TemplateField>
 
         </Columns>

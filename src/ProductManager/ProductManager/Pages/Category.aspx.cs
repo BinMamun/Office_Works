@@ -1,6 +1,8 @@
 ﻿using ProductManager.Logic;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -22,42 +24,39 @@ namespace ProductManager.Pages
 			gvCategory.DataBind();
 		}
 
-        protected void gvCategory_RowEditing(object sender, GridViewEditEventArgs e)
-        {
-            //int categoryId = Convert.ToInt32(gvCategory.DataKeys[e.NewEditIndex].Value);
-            //Response.Redirect($"EditCategory.aspx?categoryId={categoryId}");
+		protected void gvCategory_RowEditing(object sender, GridViewEditEventArgs e)
+		{
 			gvCategory.EditIndex = e.NewEditIndex;
 			Load_Categories();
-        }
+		}
 
-        protected void gvCategory_RowDeleting(object sender, GridViewDeleteEventArgs e)
-        {
-            int categoryId = Convert.ToInt32(gvCategory.DataKeys[e.RowIndex].Value);
+		protected void gvCategory_RowUpdating(object sender, GridViewUpdateEventArgs e)
+		{
+			var categoryId = Convert.ToInt32(gvCategory.DataKeys[e.RowIndex].Value);
+			var categoryName = ((TextBox)gvCategory.Rows[e.RowIndex].FindControl("txtCategoryName")).Text.Trim();
+
+			CategoryLogic.UpdateCategory(categoryId, categoryName);
+			gvCategory.EditIndex = -1;
+			Load_Categories();
+		}
+
+
+		protected void gvCategory_RowDeleting(object sender, GridViewDeleteEventArgs e)
+		{
+			int categoryId = Convert.ToInt32(gvCategory.DataKeys[e.RowIndex].Value);
 			DbUtility.ExecuteStoredProcedure("DeleteCategory", new Dictionary<string, object>
 			{{ "@CategoryId", categoryId} });
-            Load_Categories();
-        }
+			Load_Categories();
+		}
 
-        protected void btnAddCategory_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("AddCategory.aspx");
-        }
-
-		protected void gvCategory_Command(object sender, GridViewCommandEventArgs e)
+		protected void btnAddCategory_Click(object sender, EventArgs e)
 		{
-			var id = Convert.ToInt32(e.CommandArgument);
-			if (e.CommandName == "Edit")
-			{
-				Response.Redirect($"EditCategory.aspx?categoryId={id}");
-			}
-			else if (e.CommandName == "Delete")
-			{
-				DbUtility.ExecuteStoredProcedure("DeleteCategory", new Dictionary<string, object>
-				{
-					{"@CategoryID", id }
-				});
-				e.Handled = true;
-			}
+			Response.Redirect("AddCategory.aspx");
+		}
+
+		protected void gvCategory_CancelEdit(object sender, GridViewCancelEditEventArgs e)
+		{
+			gvCategory.EditIndex = -1;
 			Load_Categories();
 		}
 	}
