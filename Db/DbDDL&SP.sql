@@ -90,6 +90,18 @@ BEGIN
 END;
 GO
 
+--Stored Procedure to Get Product by Id
+CREATE PROCEDURE GetProductById
+@ProductID INT
+AS
+BEGIN
+    SELECT p.ProductID, p.ProductName, c.CategoryName, p.Price, p.PicturePath, p.Stock
+    FROM Products p
+    LEFT JOIN Categories c ON p.CategoryID = c.CategoryID
+	WHERE p.ProductID= @ProductID;
+END;
+GO
+
 
 --Stored Procedure to Get All Products by Category
 CREATE PROCEDURE GetProductsByCategory
