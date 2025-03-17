@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace ProductManager.Pages
 {
-	public partial class AddProduct : System.Web.UI.Page
+	public partial class AddProduct : Page
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
@@ -36,7 +36,7 @@ namespace ProductManager.Pages
 
 			var parameters = new Dictionary<string, object>
 			{
-				{ "@ProductName",  txtProductName.Text},
+				{ "@ProductName",  txtProductName.Text.Trim()},
 				{ "@CategoryID",  ddlCategories.SelectedValue},
 				{"@Price", decimal.Parse(txtPrice.Text) },
 				{"@PicturePath", imagePath },

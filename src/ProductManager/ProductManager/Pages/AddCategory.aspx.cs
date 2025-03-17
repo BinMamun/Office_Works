@@ -12,9 +12,12 @@ namespace ProductManager.Pages
 		}
 		protected void btnAddCategory_Click(object sender, EventArgs e)
 		{
-			DbUtility.ExecuteStoredProcedure("AddCategory", new Dictionary<string, object>
-			{{ "@CategoryName", txtCategoryName.Text} });
-			Response.Redirect("Category.aspx");
+			var categoryName = txtCategoryName.Text.Trim();
+			if (categoryName != null && !string.IsNullOrWhiteSpace(categoryName))
+			{
+				DbUtility.ExecuteStoredProcedure("AddCategory", new Dictionary<string, object> { { "@CategoryName", txtCategoryName.Text.Trim() } });
+				Response.Redirect("Category.aspx");
+			}
 		}
 	}
 }
