@@ -44,5 +44,11 @@
     <Compile Include="Model\ProductReportModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Reports\ProductReport.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\DataSources\ReportingServices.Model.ProductReportModel.datasource" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
