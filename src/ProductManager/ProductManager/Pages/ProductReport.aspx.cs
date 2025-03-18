@@ -2,6 +2,7 @@
 using ReportingServices.Model;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -15,7 +16,7 @@ namespace ProductManager.Pages
 		{
 			if (!IsPostBack)
 			{
-				PrintReport();
+				PrintReport("Product Report");
 			}
 		}
 
@@ -24,15 +25,19 @@ namespace ProductManager.Pages
 			return DbUtility.ExecuteReportReader<ProductReportModel>("GetProducts");
 		}
 
-		private void PrintReport()
+		private void PrintReport(string reportName)
 		{
 			var lst = GetProductReportData();
-			rvProducts.LocalReport.ReportPath = @"C:\Abdullah_Practice\Office_Works\src\ProductManager\ReportingServices\Reports\ProductReport.rdlc";
+
+			var reportPath = ConfigurationManager.AppSettings["ReportPath"];
+			rvProducts.LocalReport.ReportPath = reportPath + "ProductReport.rdlc";
 			rvProducts.LocalReport.DataSources.Clear();
 
+			var rptName = new ReportParameter("ReportName", reportName);
+			var currentDate = new ReportParameter("Date", DateTime.UtcNow.ToString());
 			ReportDataSource rds = new ReportDataSource("ProductReportDataset", lst);
 			rvProducts.LocalReport.DataSources.Add(rds);
-			//rvProducts.LocalReport.SetParameters()
+			rvProducts.LocalReport.SetParameters(new ReportParameter[] { rptName, currentDate });
 			rvProducts.LocalReport.Refresh();
 		}
 	}
