@@ -5,8 +5,11 @@
         <div class="col-10">
             <h2 class="mt-3">Product List</h2>
         </div>
-        <div class="col-2">
-            <asp:Button ID="btnAddProduct" runat="server" Text="Add New" OnClick="btnAddProduct_Click" CssClass="btn btn-sm btn-primary" />
+        <div class="col-1">
+            <asp:Button ID="btnAddProduct" runat="server" Text="Add" OnClick="btnAddProduct_Click" CssClass="btn btn-sm btn-primary px-4" />
+        </div>
+        <div class="col-1">
+            <asp:Button ID="btnShowReport" runat="server" Text="Print" OnClick="btnPrintProduct_Click" CssClass="btn btn-sm btn-primary px-4" />
         </div>
     </div>
 

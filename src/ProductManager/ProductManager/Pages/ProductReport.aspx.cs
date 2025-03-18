@@ -3,20 +3,19 @@ using ReportingServices.Model;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
+using System.IO;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace ProductManager.Pages
 {
-	public partial class ProductReport : System.Web.UI.Page
+	public partial class ProductReport : Page
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
 			if (!IsPostBack)
 			{
-				PrintReport("Product Report");
+				PrintReport();
 			}
 		}
 
@@ -25,20 +24,38 @@ namespace ProductManager.Pages
 			return DbUtility.ExecuteReportReader<ProductReportModel>("GetProducts");
 		}
 
-		private void PrintReport(string reportName)
+		private void PrintReport()
 		{
 			var lst = GetProductReportData();
+			var reportPath = ConfigurationManager.AppSettings["ReportPath"] + "ProductReport.rdlc";
 
-			var reportPath = ConfigurationManager.AppSettings["ReportPath"];
-			rvProducts.LocalReport.ReportPath = reportPath + "ProductReport.rdlc";
-			rvProducts.LocalReport.DataSources.Clear();
+			LocalReport localReport = new LocalReport();
 
-			var rptName = new ReportParameter("ReportName", reportName);
-			var currentDate = new ReportParameter("Date", DateTime.UtcNow.ToString());
+			localReport.ReportPath = reportPath;
+			localReport.DataSources.Clear();
+
 			ReportDataSource rds = new ReportDataSource("ProductReportDataset", lst);
-			rvProducts.LocalReport.DataSources.Add(rds);
-			rvProducts.LocalReport.SetParameters(new ReportParameter[] { rptName, currentDate });
-			rvProducts.LocalReport.Refresh();
+			localReport.DataSources.Add(rds);
+
+			var reportName = "Product List";
+			var rptName = new ReportParameter("RptName", reportName);
+			var currentDate = new ReportParameter("Date", DateTime.UtcNow.AddHours(6).ToString("dd-MMM-yyyy hh:mm:ss tt"));
+
+			localReport.SetParameters(new ReportParameter[] { rptName, currentDate });
+
+			string mimeType, encoding, fileNameExtension;
+			Warning[] warnings;
+			string[] streamIds;
+
+			byte[] pdfBytes = localReport.Render(
+				"PDF", null, out mimeType, out encoding, out fileNameExtension,
+				out streamIds, out warnings);
+
+			HttpContext.Current.Response.Clear();
+			HttpContext.Current.Response.ContentType = "application/pdf";
+			HttpContext.Current.Response.AddHeader("Content-Disposition", $"inline; filename=ProductReport-{currentDate}.pdf");
+			HttpContext.Current.Response.BinaryWrite(pdfBytes);
+			HttpContext.Current.Response.End();
 		}
 	}
 }

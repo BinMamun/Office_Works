@@ -99,5 +99,10 @@ namespace ProductManager.Pages
 
 			Load_Products();
 		}
+
+		protected void btnPrintProduct_Click(object sender, EventArgs e)
+		{
+			Response.Redirect("ProductReport.aspx");			
+		}
 	}
 }
