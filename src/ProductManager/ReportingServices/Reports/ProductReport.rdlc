@@ -374,7 +374,7 @@
       <Width>8.07626in</Width>
       <Page>
         <PageHeader>
-          <Height>1in</Height>
+          <Height>0.69792in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -420,18 +420,21 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Parameters!Date.Value</Value>
-                      <Style />
+                      <Value>=CDate(Parameters!Date.Value).ToString("dd-MMM-yyyy hh:mm:ss tt")</Value>
+                      <Style>
+                        <FontFamily>calibri light</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
                     </TextRun>
                   </TextRuns>
                   <Style />
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Date</rd:DefaultName>
-              <Top>0.29042in</Top>
-              <Left>6.11313in</Left>
+              <Top>0.125in</Top>
+              <Left>6.03002in</Left>
               <Height>0.25in</Height>
-              <Width>1.53582in</Width>
+              <Width>1.92124in</Width>
               <ZIndex>1</ZIndex>
               <Style>
                 <Border>

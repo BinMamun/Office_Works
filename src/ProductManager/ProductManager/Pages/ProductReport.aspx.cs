@@ -29,9 +29,10 @@ namespace ProductManager.Pages
 			var lst = GetProductReportData();
 			var reportPath = ConfigurationManager.AppSettings["ReportPath"] + "ProductReport.rdlc";
 
-			LocalReport localReport = new LocalReport();
-
-			localReport.ReportPath = reportPath;
+			LocalReport localReport = new LocalReport
+			{
+				ReportPath = reportPath
+			};
 			localReport.DataSources.Clear();
 
 			ReportDataSource rds = new ReportDataSource("ProductReportDataset", lst);
