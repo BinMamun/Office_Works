@@ -103,10 +103,6 @@ namespace ProductManager.Pages
 			LoadProducts();
 		}
 
-		protected void btnPrintProduct_Click(object sender, EventArgs e)
-		{
-			Response.Redirect("ProductReport.aspx");			
-		}
 
 		protected void gvProducts_PageIndexChanging(object sender, GridViewPageEventArgs e)
 		{

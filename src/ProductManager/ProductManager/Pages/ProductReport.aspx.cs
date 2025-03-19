@@ -38,7 +38,7 @@ namespace ProductManager.Pages
 			ReportDataSource rds = new ReportDataSource("ProductReportDataset", lst);
 			localReport.DataSources.Add(rds);
 
-			var reportName = "Product List";
+			var reportName = "Product Stock List";
 			var rptName = new ReportParameter("RptName", reportName);
 			var currentDate = new ReportParameter("Date", DateTime.UtcNow.AddHours(6).ToString("dd-MMM-yyyy hh:mm:ss tt"));
 

@@ -18,7 +18,7 @@
             <asp:Button ID="btnAddProduct" runat="server" Text="Add" OnClick="btnAddProduct_Click" CssClass="btn btn-sm btn-primary px-4" />
         </div>
         <div class="col-1">
-            <asp:Button ID="btnShowReport" runat="server" Text="Print" OnClick="btnPrintProduct_Click" CssClass="btn btn-sm btn-primary px-4" />
+            <asp:Button ID="btnShowReport" runat="server" Text="Print" CssClass="btn btn-sm btn-primary px-4" OnClientClick="window.open('ProductReport.aspx', '_blank'); return false;"/>
         </div>
     </div>
 
