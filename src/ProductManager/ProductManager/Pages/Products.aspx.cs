@@ -14,16 +14,18 @@ namespace ProductManager.Pages
 		{
 			if (!IsPostBack)
 			{
-				ViewState["PageSize"] = 10;
+				GetData();
 				LoadProducts();
 			}
 		}
-
-		private void LoadProducts(int pageIndex = 0)
+		private void GetData()
 		{
-			gvProducts.DataSource = ProductLogic.GetProducts();
-			gvProducts.PageSize = Convert.ToInt32(ViewState["PageSize"]);
-			gvProducts.PageIndex = pageIndex;
+			ViewState["tbldata"] = ProductLogic.GetProducts();
+		}
+		private void LoadProducts()
+		{
+			gvProducts.DataSource = ViewState["tbldata"];
+			gvProducts.PageSize = Convert.ToInt32(ddlPageSize.SelectedValue.ToString());
 			gvProducts.DataBind();
 		}
 
@@ -57,14 +59,16 @@ namespace ProductManager.Pages
 		protected void gvProducts_RowEditing(object sender, GridViewEditEventArgs e)
 		{
 			gvProducts.EditIndex = e.NewEditIndex;
-			LoadProducts(gvProducts.PageIndex);
+			this.LoadProducts();
 		}
 
 		protected void gvProducts_RowUpdating(object sender, GridViewUpdateEventArgs e)
 		{
 			var id = Convert.ToInt32(gvProducts.DataKeys[e.RowIndex].Value);
 			var row = gvProducts.Rows[e.RowIndex];
-			
+
+			int tblindex = (this.gvProducts.PageSize * this.gvProducts.PageIndex) + e.RowIndex;
+
 			var productName = ((TextBox)row.FindControl("txtProductName")).Text.Trim();
 			var price = decimal.Parse(((TextBox)row.FindControl("txtPrice")).Text);
 			var stock = int.Parse(((TextBox)row.FindControl("txtStock")).Text);
@@ -82,14 +86,18 @@ namespace ProductManager.Pages
 
 			ProductLogic.UpdateProduct(id, productName, categoryId, price, picturePath, stock);
 
+			DataTable dt = (DataTable)ViewState["tbldata"];
+			dt.Rows[tblindex]["ProductName"] = productName;
+			
+
 			gvProducts.EditIndex = -1;
-			LoadProducts(gvProducts.PageIndex);
+			this.LoadProducts();
 		}
 
 		protected void gvProducts_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
 		{
 			gvProducts.EditIndex = -1;
-			LoadProducts(gvProducts.PageIndex);
+			LoadProducts();
 		}
 
 		protected void gvProduct_RowDeleting(object sender, GridViewDeleteEventArgs e)
@@ -107,13 +115,12 @@ namespace ProductManager.Pages
 		protected void gvProducts_PageIndexChanging(object sender, GridViewPageEventArgs e)
 		{
 			gvProducts.PageIndex = e.NewPageIndex;
-			LoadProducts(e.NewPageIndex);
+			LoadProducts();
 		}
 
 		protected void ddlPageSize_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			ViewState["PageSize"] = Convert.ToInt32(ddlPageSize.SelectedValue);
-			gvProducts.PageIndex = 0;
+
 			LoadProducts();
 		}
 	}

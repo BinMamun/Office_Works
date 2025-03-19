@@ -30,6 +30,15 @@
         OnRowDeleting="gvProduct_RowDeleting"
         OnPageIndexChanging="gvProducts_PageIndexChanging">
         <Columns>
+
+              <asp:TemplateField HeaderText="SL">
+                <ItemTemplate>
+                    <%# Container.DataItemIndex+1 %>
+                </ItemTemplate>
+
+                
+            </asp:TemplateField>
+
             <asp:TemplateField HeaderText="Image">
                 <ItemTemplate>
                     <img src='<%# Eval("PicturePath") != DBNull.Value && !string.IsNullOrEmpty(Eval("PicturePath").ToString()) ? ResolveUrl("~/Images/") + Eval("PicturePath") : ResolveUrl("~/Images/default.png") %>' width="50" height="50" />
