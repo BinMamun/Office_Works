@@ -14,13 +14,16 @@ namespace ProductManager.Pages
 		{
 			if (!IsPostBack)
 			{
+				ViewState["PageSize"] = 10;
 				LoadProducts();
 			}
 		}
 
-		private void LoadProducts()
+		private void LoadProducts(int pageIndex = 0)
 		{
 			gvProducts.DataSource = ProductLogic.GetProducts();
+			gvProducts.PageSize = Convert.ToInt32(ViewState["PageSize"]);
+			gvProducts.PageIndex = pageIndex;
 			gvProducts.DataBind();
 		}
 
@@ -53,6 +56,7 @@ namespace ProductManager.Pages
 
 		protected void gvProducts_RowEditing(object sender, GridViewEditEventArgs e)
 		{
+			//var globalPageIndex = (gvProducts.PageIndex * gvProducts.PageSize) + e.NewEditIndex;
 			gvProducts.EditIndex = e.NewEditIndex;
 			LoadProducts();
 		}
@@ -108,7 +112,14 @@ namespace ProductManager.Pages
 		protected void gvProducts_PageIndexChanging(object sender, GridViewPageEventArgs e)
 		{
 			gvProducts.PageIndex = e.NewPageIndex;
-			LoadProducts();
+			LoadProducts(e.NewPageIndex);
 		}
+
+		//protected void ddlPageSize_SelectedIndexChanged(object sender, EventArgs e)
+		//{
+		//	ViewState["PageSize"] = Convert.ToInt32(ddlPageSize.SelectedValue);
+		//	gvProducts.PageIndex = 0;
+		//	LoadProducts();
+		//}
 	}
 }

@@ -1,9 +1,18 @@
 ﻿<%@ Page Title="Products" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Products.aspx.cs" Inherits="ProductManager.Pages.Products" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <div class="mt-2">
+        <h2>Product List</h2>
+    </div>
     <div class="row d-flex align-items-center">
-        <div class="col-10">
-            <h2 class="mt-3">Product List</h2>
+        <div class="col-10 mt-2">
+            <%--<asp:DropDownList ID="ddlPageSize" runat="server" AutoPostBack="true"
+                OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged" CssClass="form-select">
+                <asp:ListItem Text="10" Value="10" Selected="True"></asp:ListItem>
+                <asp:ListItem Text="20" Value="20"></asp:ListItem>
+                <asp:ListItem Text="50" Value="50"></asp:ListItem>
+                <asp:ListItem Text="100" Value="100"></asp:ListItem>
+            </asp:DropDownList>--%>
         </div>
         <div class="col-1">
             <asp:Button ID="btnAddProduct" runat="server" Text="Add" OnClick="btnAddProduct_Click" CssClass="btn btn-sm btn-primary px-4" />
