@@ -13,20 +13,14 @@
         </div>
     </div>
 
-    <asp:GridView ID="gvProducts" runat="server" AutoGenerateColumns="False" CssClass="table table-striped table-sm table-hover mt-3" HeaderStyle-CssClass="table-primary" DataKeyNames="ProductID"
+    <asp:GridView ID="gvProducts" runat="server" AutoGenerateColumns="False" CssClass="table table-striped table-sm table-hover mt-3" HeaderStyle-CssClass="table-primary" DataKeyNames="ProductID" AllowPaging="true" PageSize="10"
         OnRowDataBound="gvProducts_RowDataBound"
         OnRowEditing="gvProducts_RowEditing"
         OnRowUpdating="gvProducts_RowUpdating"
         OnRowCancelingEdit="gvProducts_RowCancelingEdit"
-        OnRowDeleting="gvProduct_RowDeleting">
+        OnRowDeleting="gvProduct_RowDeleting"
+        OnPageIndexChanging="gvProducts_PageIndexChanging">
         <Columns>
-            <%--<asp:TemplateField HeaderText="S No.">
-                <ItemTemplate>
-                    <asp:Label ID="RowDataIndex" Width="40" runat="server"
-                        Text="<%#: Container.DataItemIndex + 1 %>" ReadOnly="true"></asp:Label>
-                </ItemTemplate>
-            </asp:TemplateField>--%>
-
             <asp:TemplateField HeaderText="Image">
                 <ItemTemplate>
                     <img src='<%# Eval("PicturePath") != DBNull.Value && !string.IsNullOrEmpty(Eval("PicturePath").ToString()) ? ResolveUrl("~/Images/") + Eval("PicturePath") : ResolveUrl("~/Images/default.png") %>' width="50" height="50" />
@@ -91,6 +85,5 @@
                 </EditItemTemplate>
             </asp:TemplateField>
         </Columns>
-
     </asp:GridView>
 </asp:Content>

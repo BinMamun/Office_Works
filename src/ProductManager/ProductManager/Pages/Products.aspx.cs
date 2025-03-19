@@ -14,11 +14,11 @@ namespace ProductManager.Pages
 		{
 			if (!IsPostBack)
 			{
-				Load_Products();
+				LoadProducts();
 			}
 		}
 
-		private void Load_Products()
+		private void LoadProducts()
 		{
 			gvProducts.DataSource = ProductLogic.GetProducts();
 			gvProducts.DataBind();
@@ -54,7 +54,7 @@ namespace ProductManager.Pages
 		protected void gvProducts_RowEditing(object sender, GridViewEditEventArgs e)
 		{
 			gvProducts.EditIndex = e.NewEditIndex;
-			Load_Products();
+			LoadProducts();
 		}
 
 		protected void gvProducts_RowUpdating(object sender, GridViewUpdateEventArgs e)
@@ -80,13 +80,13 @@ namespace ProductManager.Pages
 			ProductLogic.UpdateProduct(id, productName, categoryId, price, picturePath, stock);
 
 			gvProducts.EditIndex = -1;
-			Load_Products();
+			LoadProducts();
 		}
 
 		protected void gvProducts_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
 		{
 			gvProducts.EditIndex = -1;
-			Load_Products();
+			LoadProducts();
 		}
 
 		protected void gvProduct_RowDeleting(object sender, GridViewDeleteEventArgs e)
@@ -97,12 +97,18 @@ namespace ProductManager.Pages
 				{"@ProductID", id }
 			});
 
-			Load_Products();
+			LoadProducts();
 		}
 
 		protected void btnPrintProduct_Click(object sender, EventArgs e)
 		{
 			Response.Redirect("ProductReport.aspx");			
+		}
+
+		protected void gvProducts_PageIndexChanging(object sender, GridViewPageEventArgs e)
+		{
+			gvProducts.PageIndex = e.NewPageIndex;
+			LoadProducts();
 		}
 	}
 }
