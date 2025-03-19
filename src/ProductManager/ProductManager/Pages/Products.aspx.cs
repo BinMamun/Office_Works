@@ -56,9 +56,8 @@ namespace ProductManager.Pages
 
 		protected void gvProducts_RowEditing(object sender, GridViewEditEventArgs e)
 		{
-			//var globalPageIndex = (gvProducts.PageIndex * gvProducts.PageSize) + e.NewEditIndex;
 			gvProducts.EditIndex = e.NewEditIndex;
-			LoadProducts();
+			LoadProducts(gvProducts.PageIndex);
 		}
 
 		protected void gvProducts_RowUpdating(object sender, GridViewUpdateEventArgs e)
@@ -84,13 +83,13 @@ namespace ProductManager.Pages
 			ProductLogic.UpdateProduct(id, productName, categoryId, price, picturePath, stock);
 
 			gvProducts.EditIndex = -1;
-			LoadProducts();
+			LoadProducts(gvProducts.PageIndex);
 		}
 
 		protected void gvProducts_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
 		{
 			gvProducts.EditIndex = -1;
-			LoadProducts();
+			LoadProducts(gvProducts.PageIndex);
 		}
 
 		protected void gvProduct_RowDeleting(object sender, GridViewDeleteEventArgs e)
@@ -115,11 +114,11 @@ namespace ProductManager.Pages
 			LoadProducts(e.NewPageIndex);
 		}
 
-		//protected void ddlPageSize_SelectedIndexChanged(object sender, EventArgs e)
-		//{
-		//	ViewState["PageSize"] = Convert.ToInt32(ddlPageSize.SelectedValue);
-		//	gvProducts.PageIndex = 0;
-		//	LoadProducts();
-		//}
+		protected void ddlPageSize_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			ViewState["PageSize"] = Convert.ToInt32(ddlPageSize.SelectedValue);
+			gvProducts.PageIndex = 0;
+			LoadProducts();
+		}
 	}
 }

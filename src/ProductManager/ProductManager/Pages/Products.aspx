@@ -6,13 +6,13 @@
     </div>
     <div class="row d-flex align-items-center">
         <div class="col-10 mt-2">
-            <%--<asp:DropDownList ID="ddlPageSize" runat="server" AutoPostBack="true"
-                OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged" CssClass="form-select">
+            <asp:DropDownList ID="ddlPageSize" runat="server" AutoPostBack="true"
+                OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged" CssClass="form-select form-select-sm">
                 <asp:ListItem Text="10" Value="10" Selected="True"></asp:ListItem>
                 <asp:ListItem Text="20" Value="20"></asp:ListItem>
                 <asp:ListItem Text="50" Value="50"></asp:ListItem>
                 <asp:ListItem Text="100" Value="100"></asp:ListItem>
-            </asp:DropDownList>--%>
+            </asp:DropDownList>
         </div>
         <div class="col-1">
             <asp:Button ID="btnAddProduct" runat="server" Text="Add" OnClick="btnAddProduct_Click" CssClass="btn btn-sm btn-primary px-4" />
