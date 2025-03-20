@@ -18,7 +18,7 @@
             <asp:Button ID="btnAddProduct" runat="server" Text="Add" OnClick="btnAddProduct_Click" CssClass="btn btn-sm btn-primary px-4" />
         </div>
         <div class="col-1">
-            <asp:Button ID="btnShowReport" runat="server" Text="Print" CssClass="btn btn-sm btn-primary px-4" OnClientClick="window.open('ProductReport.aspx', '_blank'); return false;"/>
+            <asp:Button ID="btnShowReport" runat="server" Text="Print" CssClass="btn btn-sm btn-primary px-4" OnClientClick="window.open('ProductReport.aspx', '_blank'); return false;" />
         </div>
     </div>
 
@@ -31,12 +31,10 @@
         OnPageIndexChanging="gvProducts_PageIndexChanging">
         <Columns>
 
-              <asp:TemplateField HeaderText="SL">
+            <asp:TemplateField HeaderText="SL">
                 <ItemTemplate>
-                    <%# Container.DataItemIndex+1 %>
+                    <%# Container.DataItemIndex + 1 %>
                 </ItemTemplate>
-
-                
             </asp:TemplateField>
 
             <asp:TemplateField HeaderText="Image">

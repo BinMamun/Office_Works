@@ -25,7 +25,7 @@ namespace ProductManager.Pages
 		private void LoadProducts()
 		{
 			gvProducts.DataSource = ViewState["tbldata"];
-			gvProducts.PageSize = Convert.ToInt32(ddlPageSize.SelectedValue.ToString());
+			gvProducts.PageSize = Convert.ToInt32(ddlPageSize.SelectedValue);
 			gvProducts.DataBind();
 		}
 
@@ -49,7 +49,6 @@ namespace ProductManager.Pages
 					ddlCategory.DataValueField = "CategoryID";
 					ddlCategory.DataBind();
 
-					// Set selected value
 					var categoryId = DataBinder.Eval(e.Row.DataItem, "CategoryID").ToString();
 					ddlCategory.SelectedValue = categoryId;
 				}
@@ -59,15 +58,13 @@ namespace ProductManager.Pages
 		protected void gvProducts_RowEditing(object sender, GridViewEditEventArgs e)
 		{
 			gvProducts.EditIndex = e.NewEditIndex;
-			this.LoadProducts();
+			LoadProducts();
 		}
 
 		protected void gvProducts_RowUpdating(object sender, GridViewUpdateEventArgs e)
 		{
 			var id = Convert.ToInt32(gvProducts.DataKeys[e.RowIndex].Value);
 			var row = gvProducts.Rows[e.RowIndex];
-
-			int tblindex = (this.gvProducts.PageSize * this.gvProducts.PageIndex) + e.RowIndex;
 
 			var productName = ((TextBox)row.FindControl("txtProductName")).Text.Trim();
 			var price = decimal.Parse(((TextBox)row.FindControl("txtPrice")).Text);
@@ -83,15 +80,24 @@ namespace ProductManager.Pages
 				fullImage.SaveAs(filePath);
 				picturePath = fileName;
 			}
-
 			ProductLogic.UpdateProduct(id, productName, categoryId, price, picturePath, stock);
 
-			DataTable dt = (DataTable)ViewState["tbldata"];
-			dt.Rows[tblindex]["ProductName"] = productName;
-			
+			UpdateRowAfterEdit(productName, picturePath, categoryId, price, stock, e);
 
 			gvProducts.EditIndex = -1;
-			this.LoadProducts();
+			LoadProducts();
+		}
+
+		private void UpdateRowAfterEdit(string productName, string picturePath, int categoryId, decimal price, int stock,  GridViewUpdateEventArgs e)
+		{
+			int tblIndex = (gvProducts.PageSize * gvProducts.PageIndex) + e.RowIndex;
+
+			DataTable dt = (DataTable)ViewState["tbldata"];
+			dt.Rows[tblIndex]["ProductName"] = productName;
+			dt.Rows[tblIndex]["PicturePath"] = picturePath;
+			dt.Rows[tblIndex]["CategoryName"] = categoryId;
+			dt.Rows[tblIndex]["Price"] = price;
+			dt.Rows[tblIndex]["Stock"] = stock;
 		}
 
 		protected void gvProducts_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
@@ -120,7 +126,6 @@ namespace ProductManager.Pages
 
 		protected void ddlPageSize_SelectedIndexChanged(object sender, EventArgs e)
 		{
-
 			LoadProducts();
 		}
 	}
