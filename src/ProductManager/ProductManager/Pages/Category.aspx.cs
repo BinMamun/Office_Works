@@ -42,27 +42,17 @@ namespace ProductManager.Pages
 
             CategoryLogic.UpdateCategory(categoryId, categoryName);
 
-            UpdateGridRowAfterChange(categoryName, e.RowIndex);
+            UpdateGridAfterChange("edit", e.RowIndex, categoryName);
             gvCategory.EditIndex = -1;
             Load_Categories();
         }
-
-        private void UpdateGridRowAfterChange(string categoryName, int rowIndex)
-        {
-            DataTable dt = (DataTable)ViewState["tblCategory"];
-            int tblIndex = (gvCategory.PageIndex * gvCategory.PageSize) + rowIndex;
-            if (tblIndex >= 0 && tblIndex < dt.Rows.Count)
-            {
-                dt.Rows[tblIndex]["CategoryName"] = categoryName;
-            }
-        }
-
 
         protected void gvCategory_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             int categoryId = Convert.ToInt32(gvCategory.DataKeys[e.RowIndex].Value);
             DbUtility.ExecuteStoredProcedure("DeleteCategory", new Dictionary<string, object>
             {{ "@CategoryId", categoryId} });
+            UpdateGridAfterChange("delete", e.RowIndex);
             Load_Categories();
         }
 
@@ -77,14 +67,43 @@ namespace ProductManager.Pages
                         { "@CategoryName", txtCategoryNameModal.Text.Trim() }
                     });
             }
-
+            UpdateGridAfterChange("add", categoryName: categoryName);
             Load_Categories();
         }
-
 
         protected void gvCategory_CancelEdit(object sender, GridViewCancelEditEventArgs e)
         {
             gvCategory.EditIndex = -1;
+            Load_Categories();
+        }
+
+        private void UpdateGridAfterChange(string action, int rowIndex = -1, string categoryName = null)
+        {
+            DataTable dt = ViewState["tblCategory"] as DataTable;
+
+            switch (action.ToLower())
+            {
+                case "add":
+                    int newId = dt.Rows.Count > 0 ? Convert.ToInt32(dt.Compute("MAX(CategoryID)", "")) + 1 : 1;
+                    dt.Rows.Add(newId, categoryName);
+                    break;
+
+                case "edit":
+                    if (rowIndex >= 0 && rowIndex < dt.Rows.Count)
+                    {
+                        dt.Rows[rowIndex]["CategoryName"] = categoryName;
+                    }
+                    break;
+
+                case "delete":
+                    if (rowIndex >= 0 && rowIndex < dt.Rows.Count)
+                    {
+                        dt.Rows.RemoveAt(rowIndex);
+                    }
+                    break;
+            }
+
+            ViewState["tblCategory"] = dt;
             Load_Categories();
         }
 
