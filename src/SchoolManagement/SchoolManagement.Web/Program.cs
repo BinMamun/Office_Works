@@ -52,7 +52,7 @@ try
         pattern: "{controller=Home}/{action=Index}/{id?}")
         .WithStaticAssets();
 
-
+    Log.Information("Application started...");
     app.Run();
 }
 catch (Exception ex)
