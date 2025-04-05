@@ -1,17 +1,19 @@
 ﻿using Microsoft.Extensions.Configuration;
 using SchoolManagement.Domain;
+using SchoolManagement.Domain.RepositoryContracts;
 
 namespace SchoolManagement.Infrastructure.UnitOfWork
 {
     public class SchoolManagemntUnitOfWork : UnitOfWork, ISchoolManagementUnitOfWork
     {
-        public SchoolManagemntUnitOfWork(IConfiguration configuration) : base(configuration)
+        public SchoolManagemntUnitOfWork(
+            IConfiguration configuration,
+            IStudentRepository studentRepository
+            ) : base(configuration)
         {
+            StudentRepository = studentRepository;
         }
-        // Add your repository properties here
-        // Example:
-        // public IStudentRepository StudentRepository => GetRepository<IStudentRepository>();
-        // public ICourseRepository CourseRepository => GetRepository<ICourseRepository>();
-        // public IEnrollmentRepository EnrollmentRepository => GetRepository<IEnrollmentRepository>();
+
+        public IStudentRepository StudentRepository { get; private set; }
     }
 }
