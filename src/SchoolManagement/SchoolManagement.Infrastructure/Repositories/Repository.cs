@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace SchoolManagement.Infrastructure.Repositories
 {
-    public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
+    public abstract class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
     where TEntity : class, IEntity<TKey>, new()
     where TKey : IComparable
     {
@@ -21,13 +21,13 @@ namespace SchoolManagement.Infrastructure.Repositories
         public async Task<TEntity> GetByIdAsync(Guid id)
         {
             var parameters = new Dictionary<string, object> { { "@Id", id } };
-            var (result, _) = await _sqlUtility.QueryWithStoredProcedureAsync<TEntity>($"sp_GetById_{_entityName}", parameters);
+            var (result, outValues) = await _sqlUtility.QueryWithStoredProcedureAsync<TEntity>($"sp_GetById_{_entityName}", parameters);
             return result.FirstOrDefault();
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            var (result, _) = await _sqlUtility.QueryWithStoredProcedureAsync<TEntity>($"sp_GetAll_{_entityName}");
+            var (result, outValues) = await _sqlUtility.QueryWithStoredProcedureAsync<TEntity>($"sp_GetAll_{_entityName}");
             return result;
         }
 
