@@ -23,11 +23,6 @@ namespace SchoolManagement.Infrastructure.UnitOfWork
             _sqlUtility = new SqlUtility(_connection, _transaction);
         }
 
-        public UnitOfWork(ISqlUtility sqlUtility)
-        {
-            this.sqlUtility = sqlUtility;
-        }
-
         public async Task BeginTransactionAsync()
         {
             if (_transaction == null)

@@ -1,6 +1,4 @@
-﻿using SchoolManagement.Domain;
-
-namespace SchoolManagement.Application
+﻿namespace SchoolManagement.Domain
 {
     public interface ISchoolManagementUnitOfWork : IUnitOfWork
     {

@@ -10,4 +10,8 @@
     <ProjectReference Include="..\SchoolManagement.Domain\SchoolManagement.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>
