@@ -1,3 +1,4 @@
+using SchoolManagement.Web.Modules;
 using Serilog;
 
 
@@ -25,6 +26,10 @@ try
                 .Enrich.FromLogContext()
                 .ReadFrom.Configuration(builder.Configuration));
 
+    #endregion
+
+    #region Register IServiceCollection services for DI
+    builder.Services.RegisterServices();
     #endregion
 
     // Add services to the container.
