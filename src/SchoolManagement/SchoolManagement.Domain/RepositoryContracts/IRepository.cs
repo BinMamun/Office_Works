@@ -1,6 +1,6 @@
 ﻿using SchoolManagement.Domain.Entities;
 
-namespace SchoolManagement.Domain
+namespace SchoolManagement.Domain.RepositoryContracts
 {
     public interface IRepository<TEntity, TKey> 
         where TEntity : class, IEntity<TKey>
