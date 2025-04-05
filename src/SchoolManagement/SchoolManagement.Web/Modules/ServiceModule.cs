@@ -1,4 +1,6 @@
 ﻿using SchoolManagement.Domain;
+using SchoolManagement.Domain.RepositoryContracts;
+using SchoolManagement.Infrastructure.Repositories;
 using SchoolManagement.Infrastructure.UnitOfWork;
 
 namespace SchoolManagement.Web.Modules
@@ -9,6 +11,8 @@ namespace SchoolManagement.Web.Modules
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ISchoolManagementUnitOfWork, SchoolManagemntUnitOfWork>();
+
+            services.AddScoped<IStudentRepository, StudentRepository>();
         }
     }
 }
