@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35919.96 d17.13
+VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolManagement.Web", "SchoolManagement.Web\SchoolManagement.Web.csproj", "{D21F0F19-3004-4973-8AEA-3D1A3EBE2831}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolManagement.Domain", "SchoolManagement.Domain\SchoolManagement.Domain.csproj", "{61B195CB-6750-4E11-9CB4-B2652C0ABF4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{D21F0F19-3004-4973-8AEA-3D1A3EBE2831}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D21F0F19-3004-4973-8AEA-3D1A3EBE2831}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D21F0F19-3004-4973-8AEA-3D1A3EBE2831}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61B195CB-6750-4E11-9CB4-B2652C0ABF4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61B195CB-6750-4E11-9CB4-B2652C0ABF4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61B195CB-6750-4E11-9CB4-B2652C0ABF4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61B195CB-6750-4E11-9CB4-B2652C0ABF4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
