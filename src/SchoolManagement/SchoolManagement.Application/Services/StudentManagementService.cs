@@ -14,25 +14,25 @@ namespace SchoolManagement.Application.Services
         }
         public async Task<Student> GetStudentByIdAsync(Guid id)
         {
-            return await _schoolManagementUnitOfWork.StudentRepository.GetByIdAsync(id);
+            return await _schoolManagementUnitOfWork.StudentRepository.GetStudentById(id);
         }
         public async Task<IEnumerable<Student>> GetAllStudentsAsync()
         {
-            return await _schoolManagementUnitOfWork.StudentRepository.GetAllAsync();
+            return await _schoolManagementUnitOfWork.StudentRepository.GetAllStudents();
         }
         public async Task AddStudentAsync(Student student)
         {
-            await _schoolManagementUnitOfWork.StudentRepository.AddAsync(student);
+            await _schoolManagementUnitOfWork.StudentRepository.AddStudent(student);
             await _schoolManagementUnitOfWork.CommitAsync();
         }
         public async Task UpdateStudentAsync(Student student)
         {
-            await _schoolManagementUnitOfWork.StudentRepository.UpdateAsync(student);
+            await _schoolManagementUnitOfWork.StudentRepository.UpdateStudent(student);
             await _schoolManagementUnitOfWork.CommitAsync();
         }
-        public async Task DeleteStudentAsync(int id)
+        public async Task DeleteStudentAsync(Guid id)
         {
-            await _schoolManagementUnitOfWork.StudentRepository.DeleteAsync(id);
+            await _schoolManagementUnitOfWork.StudentRepository.DeleteStudent(id);
             await _schoolManagementUnitOfWork.CommitAsync();
         }
     }

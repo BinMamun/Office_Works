@@ -10,43 +10,41 @@ namespace SchoolManagement.Infrastructure.Repositories
     where TKey : IComparable
     {
         protected readonly ISqlUtility _sqlUtility;
-        protected readonly string _entityName;
 
         public Repository(ISqlUtility sqlUtility)
         {
             _sqlUtility = sqlUtility;
-            _entityName = typeof(TEntity).Name;
         }
 
-        public async Task<TEntity> GetByIdAsync(Guid id)
+        public async Task<TEntity> GetByIdAsync(Guid id, string storedProcedureName)
         {
             var parameters = new Dictionary<string, object> { { "@Id", id } };
-            var (result, outValues) = await _sqlUtility.QueryWithStoredProcedureAsync<TEntity>($"sp_GetById_{_entityName}", parameters);
+            var (result, outValues) = await _sqlUtility.QueryWithStoredProcedureAsync<TEntity>(storedProcedureName, parameters);
             return result.FirstOrDefault();
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public async Task<IEnumerable<TEntity>> GetAllAsync(string storedProcedureName)
         {
-            var (result, outValues) = await _sqlUtility.QueryWithStoredProcedureAsync<TEntity>($"sp_GetAll_{_entityName}");
+            var (result, outValues) = await _sqlUtility.QueryWithStoredProcedureAsync<TEntity>(storedProcedureName);
             return result;
         }
 
-        public async Task AddAsync(TEntity entity)
+        public async Task AddAsync(TEntity entity, string storedProcedureName)
         {
             var parameters = EntityToDictionary(entity);
-            await _sqlUtility.ExecuteStoredProcedureAsync($"sp_Add_{_entityName}", parameters);
+            await _sqlUtility.ExecuteStoredProcedureAsync(storedProcedureName, parameters);
         }
 
-        public async Task UpdateAsync(TEntity entity)
+        public async Task UpdateAsync(TEntity entity, string storedProcedureName)
         {
             var parameters = EntityToDictionary(entity);
-            await _sqlUtility.ExecuteStoredProcedureAsync($"sp_Update_{_entityName}", parameters);
+            await _sqlUtility.ExecuteStoredProcedureAsync(storedProcedureName, parameters);
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id, string storedProcedureName)
         {
             var parameters = new Dictionary<string, object> { { "@Id", id } };
-            await _sqlUtility.ExecuteStoredProcedureAsync($"sp_Delete_{_entityName}", parameters);
+            await _sqlUtility.ExecuteStoredProcedureAsync(storedProcedureName, parameters);
         }
 
         private Dictionary<string, object> EntityToDictionary(TEntity entity)
