@@ -132,6 +132,77 @@ namespace SchoolManagement.Infrastructure.Utilities
             }
             return model;
         }
+
+        public async Task<(List<T> result, Dictionary<string, object> outValues)> QueryWithStoredProcedureAsync<T>(
+    string procedureName, Dictionary<string, object> parameters = null) where T : new()
+        {
+            List<T> result = new List<T>();
+            Dictionary<string, object> outValues = new Dictionary<string, object>();
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            using (SqlCommand cmd = new SqlCommand(procedureName, conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                if (parameters != null)
+                {
+                    foreach (var param in parameters)
+                    {
+                        var sqlParam = new SqlParameter(param.Key, param.Value ?? DBNull.Value);
+                        cmd.Parameters.Add(sqlParam);
+                    }
+                }
+
+                await conn.OpenAsync();
+                using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        T obj = new T();
+                        foreach (var prop in typeof(T).GetProperties())
+                        {
+                            if (reader.HasColumn(prop.Name) && !await reader.IsDBNullAsync(reader.GetOrdinal(prop.Name)))
+                            {
+                                prop.SetValue(obj, Convert.ChangeType(reader[prop.Name], prop.PropertyType));
+                            }
+                        }
+                        result.Add(obj);
+                    }
+                }
+
+                // collect output parameters if any
+                foreach (SqlParameter param in cmd.Parameters)
+                {
+                    if (param.Direction == ParameterDirection.Output || param.Direction == ParameterDirection.InputOutput)
+                    {
+                        outValues[param.ParameterName] = param.Value;
+                    }
+                }
+            }
+
+            return (result, outValues);
+        }
+
+        public async Task ExecuteStoredProcedureAsync(string procedureName, Dictionary<string, object> parameters = null)
+        {
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            using (SqlCommand cmd = new SqlCommand(procedureName, conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                if (parameters != null)
+                {
+                    foreach (var param in parameters)
+                    {
+                        cmd.Parameters.AddWithValue(param.Key, param.Value ?? DBNull.Value);
+                    }
+                }
+
+                await conn.OpenAsync();
+                await cmd.ExecuteNonQueryAsync();
+            }
+        }
+
     }
 
     public static class DataReaderExtensions

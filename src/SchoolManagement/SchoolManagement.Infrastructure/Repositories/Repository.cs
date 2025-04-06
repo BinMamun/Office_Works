@@ -1,31 +1,35 @@
-﻿using SchoolManagement.Domain.Entities;
+﻿using SchoolManagement.Domain;
+using SchoolManagement.Domain.Entities;
 using SchoolManagement.Domain.RepositoryContracts;
-using SchoolManagement.Domain;
 using System.Reflection;
 
 namespace SchoolManagement.Infrastructure.Repositories
 {
     public abstract class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
-    where TEntity : class, IEntity<TKey>, new()
-    where TKey : IComparable
+        where TEntity : class, IEntity<TKey>, new()
+        where TKey : IComparable
     {
         protected readonly ISqlUtility _sqlUtility;
 
-        public Repository(ISqlUtility sqlUtility)
+        protected Repository(ISqlUtility sqlUtility)
         {
             _sqlUtility = sqlUtility;
         }
 
-        public async Task<TEntity> GetByIdAsync(Guid id, string storedProcedureName)
+        public async Task<TEntity?> GetByIdAsync(Guid id, string storedProcedureName)
         {
-            var parameters = new Dictionary<string, object> { { "@Id", id } };
-            var (result, outValues) = await _sqlUtility.QueryWithStoredProcedureAsync<TEntity>(storedProcedureName, parameters);
+            var parameters = new Dictionary<string, object>
+            {
+                { "@Id", id }
+            };
+
+            var (result, _) = await _sqlUtility.QueryWithStoredProcedureAsync<TEntity>(storedProcedureName, parameters);
             return result.FirstOrDefault();
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync(string storedProcedureName)
         {
-            var (result, outValues) = await _sqlUtility.QueryWithStoredProcedureAsync<TEntity>(storedProcedureName);
+            var (result, _) = await _sqlUtility.QueryWithStoredProcedureAsync<TEntity>(storedProcedureName);
             return result;
         }
 
@@ -43,16 +47,28 @@ namespace SchoolManagement.Infrastructure.Repositories
 
         public async Task DeleteAsync(Guid id, string storedProcedureName)
         {
-            var parameters = new Dictionary<string, object> { { "@Id", id } };
+            var parameters = new Dictionary<string, object>
+            {
+                { "@Id", id }
+            };
+
             await _sqlUtility.ExecuteStoredProcedureAsync(storedProcedureName, parameters);
         }
 
-        private Dictionary<string, object> EntityToDictionary(TEntity entity)
+        protected Dictionary<string, object> EntityToDictionary(TEntity entity)
         {
-            return entity.GetType()
-                         .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                         .ToDictionary(p => $"@{p.Name}", p => p.GetValue(entity) ?? DBNull.Value);
+            var properties = typeof(TEntity).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+            var dictionary = new Dictionary<string, object>();
+
+            foreach (var prop in properties)
+            {
+                var name = $"@{prop.Name}";
+                var value = prop.GetValue(entity) ?? DBNull.Value;
+                dictionary[name] = value;
+            }
+
+            return dictionary;
         }
     }
-
 }
