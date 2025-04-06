@@ -1,129 +1,151 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using SchoolManagement.Domain;
 using System.Data;
-using System.Reflection;
 
 namespace SchoolManagement.Infrastructure.Utilities
 {
-    public class SqlUtility(SqlConnection connection, SqlTransaction transaction) : ISqlUtility
+    public class SqlUtility: ISqlUtility
     {
-        private readonly SqlConnection _connection = connection;
-        private readonly SqlTransaction _transaction = transaction;
+        private readonly string _connectionString;
 
-        public async Task<TReturn> ExecuteScalarAsync<TReturn>(string storedProcedureName, IDictionary<string, object> parameters = null)
+        public SqlUtility(IConfiguration configuration)
         {
-            using var command = CreateCommand(storedProcedureName, parameters);
-            var result = await command.ExecuteScalarAsync();
-            return (TReturn)Convert.ChangeType(result, typeof(TReturn));
+            _connectionString = configuration.GetConnectionString("DefaultConnection")
+                ?? throw new InvalidOperationException("Connection string not found.");
         }
-        public async Task<IDictionary<string, object>> ExecuteStoredProcedureAsync(string storedProcedureName,
-            IDictionary<string, object> parameters = null,
-            IDictionary<string, Type> outParameters = null)
+
+        // Execute Non-Query (INSERT, UPDATE, DELETE)
+        public int ExecuteNonQuery(string procedureName, params Object[] parameters)
         {
-            using var cmd = CreateCommand(storedProcedureName, parameters, outParameters);
-            await cmd.ExecuteNonQueryAsync();
-
-            return ExtractOutputParameters(cmd, outParameters);
-        }
-        public async Task<(IList<TReturn> result, IDictionary<string, object> outValues)> QueryWithStoredProcedureAsync<TReturn>(string storedProcedureName, IDictionary<string, object> parameters = null, IDictionary<string, Type> outParameters = null) where TReturn : class, new()
-        {
-            using var cmd = CreateCommand(storedProcedureName, parameters, outParameters);
-
-            var list = new List<TReturn>();
-
-            using (var reader = await cmd.ExecuteReaderAsync())
+            using (SqlConnection conn = new SqlConnection(_connectionString))
             {
-                while (await reader.ReadAsync())
+                using (SqlCommand cmd = new SqlCommand(procedureName, conn))
                 {
-                    var obj = new TReturn();
-                    for (var i = 0; i < reader.FieldCount; i++)
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    if (parameters != null)
                     {
-                        var property = typeof(TReturn).GetProperty(reader.GetName(i), BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
+                        cmd.Parameters.AddRange(parameters);
+                    }
+                    conn.Open();
+                    return cmd.ExecuteNonQuery();
+                }
+            }
+        }
 
-                        if (property != null && reader[i] != DBNull.Value)
+        public void ExecuteStoredProcedure(string procedureName, Dictionary<string, object> parameters = null)
+        {
+            SqlParameter[] sqlParameters = parameters?
+                .Select(p => new SqlParameter(p.Key, p.Value ?? DBNull.Value))
+                .ToArray() ?? Array.Empty<SqlParameter>();
+
+            ExecuteNonQuery(procedureName, sqlParameters);
+        }
+
+        // Execute Reader (SELECT)
+        public DataTable ExecuteReader(string procedureName, params Object[] parameters)
+        {
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(procedureName, conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    if (parameters != null)
+                    {
+                        cmd.Parameters.AddRange(parameters);
+                    }
+                    conn.Open();
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        return dt;
+                    }
+                }
+            }
+        }
+
+        public DataTable ExecuteReader(string procedureName, Dictionary<string, object> parameters = null)
+        {
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(procedureName, conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    if (parameters != null)
+                    {
+                        cmd.Parameters.AddRange(parameters
+                            .Select(p => new SqlParameter(p.Key, p.Value ?? DBNull.Value))
+                            .ToArray());
+                    }
+
+                    conn.Open();
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        return dt;
+                    }
+                }
+            }
+        }
+
+        public List<T> ExecuteReportReader<T>(string procedureName, Dictionary<string, object> parameters = null) where T : new()
+        {
+            List<T> model = new List<T>();
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(procedureName, conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    if (parameters != null)
+                    {
+                        cmd.Parameters.AddRange(parameters
+                            .Select(p => new SqlParameter(p.Key, p.Value ?? DBNull.Value))
+                            .ToArray());
+                    }
+
+                    conn.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
                         {
-                            property.SetValue(obj, Convert.ChangeType(reader[i], property.PropertyType));
+                            T obj = new T();
+
+                            foreach (var prop in typeof(T).GetProperties())
+                            {
+                                if (reader.HasColumn(prop.Name) && !reader
+                                    .IsDBNull(reader.GetOrdinal(prop.Name)))
+                                {
+                                    prop.SetValue(obj, Convert.ChangeType(reader[prop.Name],
+                                        prop.PropertyType));
+                                }
+                            }
+
+                            model.Add(obj);
                         }
                     }
-                    list.Add(obj);
                 }
             }
-
-            var outValues = ExtractOutputParameters(cmd, outParameters);
-            return (list, outValues);
+            return model;
         }
+    }
 
-        private SqlCommand CreateCommand(string storedProcedureName,
-            IDictionary<string, object> parameters = null,
-            IDictionary<string, Type> outParameters = null)
+    public static class DataReaderExtensions
+    {
+        public static bool HasColumn(this SqlDataReader reader, string columnName)
         {
-            var command = _connection.CreateCommand();
-            command.CommandText = storedProcedureName;
-            command.CommandType = CommandType.StoredProcedure;
-            command.Transaction = _transaction;
-
-            if (parameters != null)
+            for (int i = 0; i < reader.FieldCount; i++)
             {
-                foreach (var item in parameters)
+                if (reader.GetName(i).Equals(columnName, StringComparison.OrdinalIgnoreCase))
                 {
-                    command
-                        .Parameters
-                        .AddWithValue(item.Key, item.Value ?? DBNull.Value);
+                    return true;
                 }
             }
-
-            if (outParameters != null)
-            {
-                foreach (var item in outParameters)
-                {
-
-                    var outParam = new SqlParameter(item.Key, GetDbTypeFromType(item.Value))
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    command.Parameters.Add(outParam);
-                }
-            }
-
-            return command;
-        }
-
-        private SqlDbType GetDbTypeFromType(Type type)
-        {
-            if (type == typeof(int) ||
-                type == typeof(uint) ||
-                type == typeof(short) ||
-                type == typeof(ushort))
-                return SqlDbType.Int;
-            else if (type == typeof(long) || type == typeof(ulong))
-                return SqlDbType.BigInt;
-            else if (type == typeof(double) || type == typeof(decimal))
-                return SqlDbType.Decimal;
-            else if (type == typeof(string))
-                return SqlDbType.NVarChar;
-            else if (type == typeof(DateTime))
-                return SqlDbType.DateTime;
-            else if (type == typeof(bool))
-                return SqlDbType.Bit;
-            else if (type == typeof(Guid))
-                return SqlDbType.UniqueIdentifier;
-            else if (type == typeof(char))
-                return SqlDbType.NVarChar;
-            else
-                return SqlDbType.NVarChar;
-        }
-
-        private IDictionary<string, object> ExtractOutputParameters(SqlCommand cmd, IDictionary<string, Type> outParameters)
-        {
-            var result = new Dictionary<string, object>();
-            if (outParameters == null) return result;
-
-            foreach (var param in outParameters)
-            {
-                result[param.Key] = cmd.Parameters[param.Key].Value;
-            }
-
-            return result;
+            return false;
         }
     }
 }

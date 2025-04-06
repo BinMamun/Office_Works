@@ -1,9 +1,12 @@
-﻿namespace SchoolManagement.Domain
+﻿using System.Data;
+
+namespace SchoolManagement.Domain
 {
     public interface ISqlUtility
     {
-        Task<TReturn> ExecuteScalarAsync<TReturn>(string storedProcedureName, IDictionary<string, object> parameters = null);
-        Task<IDictionary<string, object>> ExecuteStoredProcedureAsync(string storedProcedureName, IDictionary<string, object> parameters = null, IDictionary<string, Type> outParameters = null);
-        Task<(IList<TReturn> result, IDictionary<string, object> outValues)> QueryWithStoredProcedureAsync<TReturn>(string storedProcedureName, IDictionary<string, object> parameters = null, IDictionary<string, Type> outParameters = null) where TReturn : class, new();
+        int ExecuteNonQuery(string procedureName, params Object[] parameters);
+        void ExecuteStoredProcedure(string procedureName, Dictionary<string, object> parameters = null);
+        DataTable ExecuteReader(string procedureName, params Object[] parameters);
+        List<T> ExecuteReportReader<T>(string procedureName, Dictionary<string, object> parameters = null)where T : new();
     }
 }
