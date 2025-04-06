@@ -4,30 +4,34 @@
     ViewData["Title"] = "Students";
 }
 
-<h2>Students</h2>
+<h1>Students</h1>
+
+<a asp-action="Add" class="btn btn-primary mb-3">Add Student</a>
 
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
             <th>Name</th>
-            <th>Email</th>
-            <th>Actions</th>
+            <th>Date Of Birth</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var student in Model)
-        {
-            <tr>
-                <td>@student.Name</td>
-                <td>@student.DateOfBirth.ToString("dd-mm-yyyy")</td>
-                <td>@student.PhoneNumber</td>
-                <td>@student.Address</td>
-                <td>
-                    <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@student.Id">Edit</a>
-                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@student.Id">Delete</a>
-                </td>
-            </tr>
-        }
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.DateOfBirth.ToShortDateString()</td>
+            <td>@item.Address</td>
+            <td>@item.PhoneNumber</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-secondary">Edit</a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
+    }
     </tbody>
 </table>
 

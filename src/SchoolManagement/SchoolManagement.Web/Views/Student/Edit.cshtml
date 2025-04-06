@@ -1,0 +1,18 @@
+﻿@model SchoolManagement.Domain.Entities.Student
+
+@{
+	ViewData["Title"] = "Edit Student";
+}
+
+<h2>Edit Student</h2>
+
+<form asp-action="Edit">
+	<input type="hidden" asp-for="Id" />
+	<partial name="_Form" model="Model" />
+	<div class="mt-2">
+		<button type="submit" class="btn btn-primary">Update</button>
+		<a asp-action="Index" class="btn btn-secondary">Cancel</a>
+	</div>
+</form>
+
+
