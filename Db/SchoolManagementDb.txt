@@ -1,0 +1,61 @@
+Create or ALTER PROCEDURE [dbo].[sp_AddStudent]
+    @Id UNIQUEIDENTIFIER,
+    @Name NVARCHAR(100),
+    @DateOfBirth DATE,
+    @Address NVARCHAR(255) = NULL,
+    @PhoneNumber NVARCHAR(20) = NULL
+AS
+BEGIN
+    INSERT INTO Student (Id, Name, DateOfBirth, Address, PhoneNumber)
+    VALUES (@Id, @Name, @DateOfBirth, @Address, @PhoneNumber);
+END
+
+
+ALTER PROCEDURE [dbo].[sp_DeleteStudent]
+    @Id UNIQUEIDENTIFIER
+AS
+BEGIN
+    DELETE FROM Student
+    WHERE Id = @Id;
+END
+
+
+ALTER   PROCEDURE [dbo].[sp_GetAllStudents]
+AS
+BEGIN
+	SELECT Id, [Name], DateOfBirth, [Address], PhoneNumber
+	FROM Student
+	ORDER BY [Name]
+END
+
+
+ALTER PROCEDURE [dbo].[sp_GetStudentById]
+    @Id UNIQUEIDENTIFIER
+AS
+BEGIN
+    SELECT 
+        Id,
+        Name,
+        DateOfBirth,
+        Address,
+        PhoneNumber
+    FROM Student
+    WHERE Id = @Id;
+END
+
+
+ALTER PROCEDURE [dbo].[sp_UpdateStudent]
+    @Id UNIQUEIDENTIFIER,
+    @Name NVARCHAR(100),
+    @DateOfBirth DATE,
+    @Address NVARCHAR(255) = NULL,
+    @PhoneNumber NVARCHAR(20) = NULL
+AS
+BEGIN
+    UPDATE Student
+    SET Name = @Name,
+        DateOfBirth = @DateOfBirth,
+        Address = @Address,
+        PhoneNumber = @PhoneNumber
+    WHERE Id = @Id;
+END
